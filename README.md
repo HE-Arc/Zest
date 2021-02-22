@@ -6,9 +6,9 @@
 
 <description>
 
-This project id developed with :
+This project is developed with :
 
-- PHP Laravel for the API
+- Django for the API
 - VueJS and TypeScript for the WebApp
 
 ## Authors
