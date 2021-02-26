@@ -1,5 +1,5 @@
-import store from '@/store';
-import Axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+//import store from '@/store';
+import Axios /*,{ AxiosInstance, AxiosRequestConfig, AxiosResponse }*/ from "axios";
 import { ZestError } from './ZestError';
 import { ZestError422 } from './ZestError422';
 
@@ -215,7 +215,7 @@ class ApiRequester {
      */
     async put(url, body) {
         return this.request("PUT", url, body);
-    };
+    }
 
     /**
      * DELETE method to API
