@@ -1,7 +1,7 @@
 import store from '@/store';
 import Axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
-import { ToudoumError } from './ToudoumError';
-import { ToudoumError422 } from './ToudoumError422';
+import { ZestError } from './ZestError';
+import { ZestError422 } from './ZestError422';
 
 /**
  * API Service to link Front-End and Back-End
@@ -82,9 +82,9 @@ class ApiRequester {
         } catch (error) {
             const data = error.response.data;
             if (data.data == undefined) {
-                throw new ToudoumError(data.code, data.message, data.status);
+                throw new ZestError(data.code, data.message, data.status);
             } else {
-                throw new ToudoumError422(data.code, data.message, data.status, data.data);
+                throw new ZestError422(data.code, data.message, data.status, data.data);
             }
         }
     }
@@ -113,9 +113,9 @@ class ApiRequester {
         } catch (error) {
             const data = error.response.data;
             if (data.data == undefined) {
-                throw new ToudoumError(data.code, data.message, data.status);
+                throw new ZestError(data.code, data.message, data.status);
             } else {
-                throw new ToudoumError422(data.code, data.message, data.status, data.data);
+                throw new ZestError422(data.code, data.message, data.status, data.data);
             }
         }
     }
@@ -148,9 +148,9 @@ class ApiRequester {
         } catch (error) {
             const data = error.response.data;
             if (data.data == undefined) {
-                throw new ToudoumError(data.code, data.message, data.status);
+                throw new ZestError(data.code, data.message, data.status);
             } else {
-                throw new ToudoumError422(data.code, data.message, data.status, data.data);
+                throw new ZestError422(data.code, data.message, data.status, data.data);
             }
         }
     }
@@ -184,9 +184,9 @@ class ApiRequester {
         } catch (error) {
             const data = error.response.data;
             if (data.data == undefined) {
-                throw new ToudoumError(data.code, data.message, data.status);
+                throw new ZestError(data.code, data.message, data.status);
             } else {
-                throw new ToudoumError422(data.code, data.message, data.status, data.data);
+                throw new ZestError422(data.code, data.message, data.status, data.data);
             }
         }
     }
