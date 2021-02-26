@@ -1,5 +1,5 @@
 /**
- * Toudoum API Error
+ * Zest API Error
  *
  * @author Lucas Fridez <lucas.fridez@he-arc.ch>
  * @export
