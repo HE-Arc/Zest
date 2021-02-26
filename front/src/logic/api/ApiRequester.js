@@ -1,8 +1,5 @@
 import store from '@/store';
 import Axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
-import { ILogin } from "./ILogin";
-import { IRegister } from './IRegister';
-import { IToudoumResponse } from './IToudoumResponse';
 import { ToudoumError } from './ToudoumError';
 import { ToudoumError422 } from './ToudoumError422';
 
@@ -69,19 +66,18 @@ class ApiRequester {
      * Log User in Application and store his token
      *
      * @author Lucas Fridez <lucas.fridez@he-arc.ch>
-     * @param {ILogin} credentials credentials to log
-     * @return {*}  {Promise<IToudoumResponse>} API Response
+     * @param {*} credentials credentials to log
+     * @return {*}  {Promise<*>} API Response
      */
     async login(credentials) {
         try {
             const response = await this.instanceAxios.post("auth/login", credentials);
             this.token = response.data.data.access_token;
 
-            // Store user in Vuex store and sessionStorage
-            store.actions.logUser(response.data.data.user);
+            //TODO: Store user in Vuex store and sessionStorage
+            //TODO: store.actions.logUser(response.data.data.user);
             window.sessionStorage.setItem("user", JSON.stringify(response.data.data.user));
             window.sessionStorage.setItem("token", response.data.data.access_token);
-            store.actions.updateUserAvatar();
             return response.data;
         } catch (error) {
             const data = error.response.data;
@@ -105,14 +101,14 @@ class ApiRequester {
      * Register an Account
      *
      * @author Lucas Fridez <lucas.fridez@he-arc.ch>
-     * @param {IRegister} account account to register
+     * @param {*} account account to register
      * @return {*}  {Promise<AxiosResponse>} API Response
      */
     async register(account) {
         try {
             const response = await this.instanceAxios.post("auth/signup", account);
             this.token = response.data.data.access_token;
-            store.actions.logUser(response.data.data.user);
+            //TODO: store.actions.logUser(response.data.data.user);
             return response;
         } catch (error) {
             const data = error.response.data;
@@ -167,7 +163,7 @@ class ApiRequester {
      * @param {("GET" | "POST" | "PUT" | "DELETE" | "PATCH")} method string method to use
      * @param {string} url url to request
      * @param {*} [body] body to add in request
-     * @return {*}  {Promise<IToudoumResponse>} Api Response
+     * @return {*}  {Promise<*>} Api Response
      */
     async request(method, url, body) {
 
@@ -203,7 +199,7 @@ class ApiRequester {
      * @author Lucas Fridez <lucas.fridez@he-arc.ch>
      * @param {string} url url to request
      * @param {*} body body to post
-     * @return {*}  {Promise<IToudoumResponse>} API Response
+     * @return {*}  {Promise<*>} API Response
      */
     async post(url, body) {
         return this.request("POST", url, body);
@@ -215,7 +211,7 @@ class ApiRequester {
      * @author Lucas Fridez <lucas.fridez@he-arc.ch>
      * @param {string} url url to request
      * @param {*} body body to put
-     * @return {*}  {Promise<IToudoumResponse>} API Response
+     * @return {*}  {Promise<*>} API Response
      */
     async put(url, body) {
         return this.request("PUT", url, body);
@@ -226,7 +222,7 @@ class ApiRequester {
      *
      * @author Lucas Fridez <lucas.fridez@he-arc.ch>
      * @param {string} url url to request
-     * @return {*}  {Promise<IToudoumResponse>} API Response
+     * @return {*}  {Promise<*>} API Response
      */
     delete(url) {
         return this.request("DELETE", url);
@@ -238,40 +234,11 @@ class ApiRequester {
      * @author Lucas Fridez <lucas.fridez@he-arc.ch>
      * @param {string} url url to request
      * @param {*} body body to PATCH
-     * @return {*}  {Promise<IToudoumResponse>} API Response
+     * @return {*}  {Promise<*>} API Response
      */
     async patch(url, body) {
         return this.request("PATCH", url, body);
     }
-
-    async formData(url, body) {
-        const requestConfig = {
-            method: "POST",
-            url: url,
-            headers: { 
-                Authorization: `Bearer ${this.token}`, 
-                "Content-Type" : "multipart/form-data"
-            }
-        };
-
-
-        if (body) {
-            requestConfig.data = body;
-        }
-
-        try {
-            const response = await this.instanceAxios(requestConfig);
-            return response.data;
-        } catch (error) {
-            const data = error.response.data;
-            if (data.data == undefined) {
-                throw new ToudoumError(data.code, data.message, data.status);
-            } else {
-                throw new ToudoumError422(data.code, data.message, data.status, data.data);
-            }
-        }
-    }
-
 }
 
 export default ApiRequester.instance;
