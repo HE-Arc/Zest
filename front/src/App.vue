@@ -1,32 +1,17 @@
 <template>
-  <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
+  <v-app class="v-application">
+    <v-app-bar app color="primary" dark>
+        <router-link to="/">
       <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
+          <img :src="require('./assets/logo.svg')" height="42" class="my-3" />
+          <h1 class="ml-3">Zest</h1>
       </div>
+        </router-link>
 
       <v-spacer></v-spacer>
-
+      <router-link to="/" class="white--text">Home</router-link> |
+      <router-link to="/Login" class="white--text">Login</router-link>
+      <router-link to="/SignUp" class="white--text">SignUp</router-link>
       <v-btn
         href="https://github.com/vuetifyjs/vuetify/releases/latest"
         target="_blank"
@@ -38,20 +23,18 @@
     </v-app-bar>
 
     <v-main>
-      <HelloWorld/>
+      <router-view />
     </v-main>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
+import "./assets/styles/main.scss";
 
 export default {
-  name: 'App',
+  name: "App",
 
-  components: {
-    HelloWorld,
-  },
+  components: {},
 
   data: () => ({
     //
