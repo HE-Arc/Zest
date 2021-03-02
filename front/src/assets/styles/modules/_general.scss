@@ -2,6 +2,12 @@
     background: linear-gradient(60deg, var(--v-primary-lighten5), var(--v-primary-lighten1));
 }
 
+.v-app-bar {
+    h1 {
+        color: #fff;
+    }
+}
+
 .theme--dark,
 .theme--light {
     .background-primary {

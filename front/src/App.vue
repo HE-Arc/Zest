@@ -1,14 +1,12 @@
 <template>
   <v-app class="v-application">
     <v-app-bar app color="primary" dark>
+        <router-link to="/">
       <div class="d-flex align-center">
-        <img
-          :src="require('./assets/logo.svg')"
-          height="42"
-          class="my-3"
-        />
-        <h1 class="ml-3">Zest</h1>
+          <img :src="require('./assets/logo.svg')" height="42" class="my-3" />
+          <h1 class="ml-3">Zest</h1>
       </div>
+        </router-link>
 
       <v-spacer></v-spacer>
       <router-link to="/" class="white--text">Home</router-link> |
