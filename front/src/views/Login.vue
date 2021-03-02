@@ -1,19 +1,6 @@
 <template>
-  <v-container fill-height fluid class="pa-0 background-gradient card-page">
-    <v-row align="center" justify="center">
-      <v-col align="center">
-        <v-card class="mx-auto" max-width="450">
-          <v-card-title class="primary white--text">
-            <span class="title">Login</span>
-          </v-card-title>
-          <v-card-text>
-            <div class="d-flex justify-center align-center my-5">
-              <img :src="require('../assets/logo.svg')" height="92" />
-              <div class="d-flex ml-2 card-header">
-                <h1 class="mb-1">Zest</h1>
-                <h2>your shared resources manager</h2>
-              </div>
-            </div>
+  <CardPage title="Login">
+      <v-card-text>
             <v-text-field
               label="Email"
               v-model="email"
@@ -63,20 +50,19 @@
               ></v-switch>
             </v-layout>
           </v-flex>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+        </CardPage>
 </template>
 
 <script lang="js">
 import Vue from "vue";
 import Api from "../logic/api/ApiRequester";
+import CardPage from "../components/CardPage";
 import { ZestError } from "../logic/api/ZestError";
 import { ZestError422 } from "../logic/api/ZestError422";
 
 export default Vue.extend({
     name: "Login",
+    components: {CardPage},
     methods: {
         login: async function () {
             this.loading = true;
