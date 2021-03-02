@@ -1,63 +1,72 @@
 <template>
-    <v-container fill-height fluid class="pa-0 background-gradient">
-        <v-row align="center" justify="center">
-            <v-col align="center">
-                <v-card class="mx-auto" max-width="450">
-                    <v-card-title class="primary white--text">
-                        <span class="title">Login</span>
-                    </v-card-title>
-                    <v-card-text>
-                        <v-text-field
-                            label="Email"
-                            v-model="email"
-                            :disabled="loading"
-                            :rules="[rules.email]"
-                            prepend-icon="mdi-email"
-                            class="my-5"
-                        ></v-text-field>
-                        <v-spacer></v-spacer>
-                        <v-text-field
-                            :append-icon="showPassord ? 'mdi-eye' : 'mdi-eye-off'"
-                            prepend-icon="mdi-lock"
-                            :disabled="loading"
-                            :rules="[rules.required, rules.min]"
-                            :type="showPassord ? 'text' : 'password'"
-                            label="Password"
-                            v-model="password"
-                            class="my-5"
-                            @keydown.enter="login"
-                            @click:append="showPassord = !showPassord"
-                        ></v-text-field>
-                        <p v-if="errorPost.length > 0" class="red--text">{{ errorPost }}</p>
-                    </v-card-text>
-                    <v-btn
-                        elevation="4"
-                        x-large
-                        class="primary white--text my-3"
-                        large
-                        rounded
-                        :loading="loading"
-                        v-on:click="login"
-                        >Login</v-btn
-                    >
-                    <v-spacer></v-spacer>
-                    <v-btn to="/SignUp" text color="accent  mb-5 mt-0"> Create an account </v-btn>
-                    <v-spacer></v-spacer>
+  <v-container fill-height fluid class="pa-0 background-gradient card-page">
+    <v-row align="center" justify="center">
+      <v-col align="center">
+        <v-card class="mx-auto" max-width="450">
+          <v-card-title class="primary white--text">
+            <span class="title">Login</span>
+          </v-card-title>
+          <v-card-text>
+            <div class="d-flex justify-center align-center my-5">
+              <img :src="require('../assets/logo.svg')" height="92" />
+              <div class="d-flex ml-2 card-header">
+                <h1 class="mb-1">Zest</h1>
+                <h2>your shared resources manager</h2>
+              </div>
+            </div>
+            <v-text-field
+              label="Email"
+              v-model="email"
+              :disabled="loading"
+              :rules="[rules.email]"
+              prepend-icon="mdi-email"
+              class="my-5"
+            ></v-text-field>
+            <v-spacer></v-spacer>
+            <v-text-field
+              :append-icon="showPassord ? 'mdi-eye' : 'mdi-eye-off'"
+              prepend-icon="mdi-lock"
+              :disabled="loading"
+              :rules="[rules.required, rules.min]"
+              :type="showPassord ? 'text' : 'password'"
+              label="Password"
+              v-model="password"
+              class="my-5"
+              @keydown.enter="login"
+              @click:append="showPassord = !showPassord"
+            ></v-text-field>
+            <p v-if="errorPost.length > 0" class="red--text">{{ errorPost }}</p>
+          </v-card-text>
+          <v-btn
+            elevation="4"
+            x-large
+            class="primary white--text my-3"
+            large
+            rounded
+            :loading="loading"
+            v-on:click="login"
+            >Login</v-btn
+          >
+          <v-spacer></v-spacer>
+          <v-btn to="/SignUp" text color="accent  mb-5 mt-0">
+            Create an account
+          </v-btn>
+          <v-spacer></v-spacer>
 
-                    <v-flex>
-                        <v-layout column align-center>
-                            <v-switch
-                                v-model="$vuetify.theme.dark"
-                                inset
-                                label="Dark Theme"
-                                persistent-hint
-                            ></v-switch>
-                        </v-layout>
-                    </v-flex>
-                </v-card>
-            </v-col>
-        </v-row>
-    </v-container>
+          <v-flex>
+            <v-layout column align-center>
+              <v-switch
+                v-model="$vuetify.theme.dark"
+                inset
+                label="Dark Theme"
+                persistent-hint
+              ></v-switch>
+            </v-layout>
+          </v-flex>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script lang="js">
