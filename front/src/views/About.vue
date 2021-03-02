@@ -1,5 +1,5 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
-  </div>
+  <v-container fill-height fluid class="d-flex align-center justify-center">
+    <h2>Zest your life</h2>
+  </v-container>
 </template>
