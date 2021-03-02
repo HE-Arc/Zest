@@ -1,0 +1,12 @@
+#share-page {
+    .input-share {
+        min-width: 50vw;
+        .v-input__slot {
+            margin-bottom: 0;
+        }
+
+        .v-text-field__details {
+            display: none;
+        }
+    }
+}
