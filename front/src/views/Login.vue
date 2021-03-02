@@ -35,7 +35,7 @@
             >Login</v-btn
           >
           <v-spacer></v-spacer>
-          <v-btn to="/SignUp" text color="accent  mb-5 mt-0">
+          <v-btn to="/SignUp" text color="primary mb-5 mt-0">
             Create an account
           </v-btn>
           <v-spacer></v-spacer>

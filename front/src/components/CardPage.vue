@@ -6,7 +6,7 @@
           <v-card-title class="primary white--text">
             <span class="title">{{this.title}}</span>
           </v-card-title>
-          <div class="d-flex justify-center align-center my-5">
+          <div class="d-flex justify-center align-center mt-5">
             <img :src="require('../assets/logo.svg')" height="92" />
             <div class="d-flex ml-2 card-header">
               <h1 class="mb-1">Zest</h1>
