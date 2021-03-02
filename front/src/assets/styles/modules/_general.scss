@@ -2,6 +2,10 @@
     background: linear-gradient(60deg, var(--v-primary-lighten5), var(--v-primary-lighten1));
 }
 
+.background-accent-gradient {
+    background: linear-gradient(0deg, var(--v-accent-lighten3), var(--v-primary-lighten3));
+}
+
 .v-app-bar {
     h1 {
         color: #fff;
