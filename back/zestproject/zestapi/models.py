@@ -14,6 +14,9 @@ class Ressource(models.Model):
     participants = models.ManyToManyField(User, through='Participate')
     author = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='%(class)s_ressources_created')
 
+    def __str__(self) -> str:
+        return self.name
+
 class Participate(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     ressource = models.ForeignKey(Ressource, on_delete=models.CASCADE)
