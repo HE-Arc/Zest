@@ -1,7 +1,7 @@
 # Zest
 
 <p align="center">
-  <img width="128" src="https://raw.githubusercontent.com/wiki/HE-Arc/toudoum/img/toudoum.png" />
+  <img width="128" src="https://user-images.githubusercontent.com/43986199/110090803-fb9f8000-7d97-11eb-8269-75e1e6aa86b3.png" />
 </p>
 
 <description>
