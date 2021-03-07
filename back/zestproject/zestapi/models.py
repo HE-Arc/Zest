@@ -5,14 +5,14 @@ from django.contrib.auth.models import User
 class Ressource(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
-    picture = models.CharField(max_length=255)
+    picture = models.CharField(max_length=255, null=True, blank=True)
     date_start = models.DateField()
     date_end = models.DateField()
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now_add=True)
-    ressource_id = models.CharField(max_length=255)
-    participants = models.ManyToManyField(User, through='Participate')
+    ressource_id = models.CharField(max_length=255, null=True, blank=True)
     author = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='%(class)s_ressources_created')
+    participants = models.ManyToManyField(User, through='Participate')
 
     def __str__(self) -> str:
         return self.name
@@ -24,3 +24,6 @@ class Participate(models.Model):
     date_end = models.DateTimeField()
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return f"{self.ressource.name} -> {self.user.username}"
