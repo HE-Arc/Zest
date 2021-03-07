@@ -15,6 +15,11 @@ class ParticipateSerializer(serializers.ModelSerializer):
         exclude = ['ressource', 'id']
         depth = 1
 
+class ParticipateActionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Participate
+        fields = '__all__'
+
 class RessourceSerializer(serializers.ModelSerializer):
     participants = ParticipateSerializer(source="participate_set", many=True,required=False) # la source est importante, par défaut : tablename + "_set" ou alors définir un nom spécifique
     author = UserSerializer(required=False)

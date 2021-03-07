@@ -26,4 +26,4 @@ class Participate(models.Model):
     updated_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
-        return f"{self.ressource.name} -> {self.user.username}"
+        return f"{self.id}. {self.ressource.name} -> {self.user.username}"

@@ -1,19 +1,17 @@
-from functools import partial
-from .models import Ressource
+from .models import Participate, Ressource
 from django.contrib.auth.models import User
 from django.http.response import Http404, HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework.parsers import JSONParser
-from .serializers import RessourceSerializer
+from .serializers import ParticipateSerializer, RessourceSerializer, ParticipateActionSerializer
 from .permissions import IsOwnerOrReadOnly
-from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
 from rest_framework import viewsets
 from rest_framework import permissions
 from django.db.models import Q
 import shortuuid
+from rest_framework.decorators import action, permission_classes
+from rest_framework import status
 
 # Create your views here.
 class RessourceViewSet(viewsets.ModelViewSet):
@@ -30,6 +28,27 @@ class RessourceViewSet(viewsets.ModelViewSet):
         serializer = RessourceSerializer(queryset, many=True)
         return Response(serializer.data)
 
+    @action(methods=['post'], detail=False) #FIXME add argument permission_classes=[permissions.IsAuthenticated]
+    def participate_add(self, request, *args, **kwargs):
+        serializer = ParticipateActionSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+    @action(methods=['patch'], detail=True) #FIXME add argument permission_classes=[permissions.IsAuthenticated, IsOwnerOrReadOnly]
+    def participate_patch(self, request, pk, participant):
+        obj = Participate.objects.get(id=participant)
+        serializer = ParticipateActionSerializer(obj, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+    @action(methods=['delete'], detail=True) #FIXME add argument permission_classes=[permissions.IsAuthenticated, IsOwnerOrReadOnly]
+    def participate_delete(self, request,pk,  participant):
+        obj = Participate.objects.get(id=participant)
+        obj.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 def index(request):
     return JsonResponse("index", safe=False)
 
@@ -38,9 +57,6 @@ def login(request):
 
 def logout(request):
     pass
-
-def ressource_my(request):
-    return HttpResponse("my ressources")
 
 def user_create(request):
     return HttpResponse("create new user")

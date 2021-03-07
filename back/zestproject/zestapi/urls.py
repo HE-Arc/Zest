@@ -15,6 +15,15 @@ ressource_detail = RessourceViewSet.as_view({
     'delete': 'destroy'
 })
 
+ressource_participate_list = RessourceViewSet.as_view({
+    'post': 'participate_add'
+})
+
+ressource_participate_detail = RessourceViewSet.as_view({
+    'patch': 'participate_patch',
+    'delete': 'participate_delete'
+})
+
 urlpatterns = [
     path('', views.index, name='home'),
 
@@ -23,6 +32,8 @@ urlpatterns = [
 
     path('ressources', ressource_list, name='ressource-list'),
     path('ressources/<int:pk>', ressource_detail, name='ressource-detail'),
+    path('ressources/<int:pk>/participants', ressource_participate_list, name='ressource-participant-list'),
+    path('ressources/<int:pk>/participants/<int:participant>', ressource_participate_detail, name='ressource-participant-detail'),
     
     path('users', views.user_create, name='user_create'),
     path('users/<int:id>/', views.user_update, name='user_update')
