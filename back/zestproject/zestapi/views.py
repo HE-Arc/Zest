@@ -1,19 +1,32 @@
 from .models import Participate, Ressource
 from django.contrib.auth.models import User
-from django.http.response import Http404, HttpResponse, JsonResponse
-from django.shortcuts import render
-from django.views.decorators.csrf import csrf_exempt
-from .serializers import ParticipateSerializer, RessourceSerializer, ParticipateActionSerializer
-from .permissions import IsOwnerOrReadOnly
+from django.http.response import HttpResponse, JsonResponse
+from .serializers import UserSerializer, RessourceSerializer, ParticipateActionSerializer
+from .permissions import IsOwnerOrReadOnly, IsOwnerOrAdmin
 from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework import permissions
 from django.db.models import Q
 import shortuuid
-from rest_framework.decorators import action, permission_classes
+from rest_framework.decorators import action
 from rest_framework import status
 
 # Create your views here.
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    This viewset automatically provides `list` and `retrieve` actions.
+    """
+    permission_classes = [permissions.IsAuthenticated,IsOwnerOrAdmin]
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    def get_permissions(self):
+        if self.request.method == 'POST':
+            self.permission_classes = (permissions.AllowAny,)
+
+        return super(UserViewSet, self).get_permissions()
+
 class RessourceViewSet(viewsets.ModelViewSet):
     queryset = Ressource.objects.all()
     serializer_class = RessourceSerializer
@@ -21,10 +34,10 @@ class RessourceViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
 
     def perform_create(self, serializer):
-        serializer.save(author=User.objects.get(pk=self.request.user.id), ressource_id=shortuuid.uuid()) #FIXME with self.request.user
+        serializer.save(author=User.objects.get(pk=self.request.user.id), ressource_id=shortuuid.uuid())
 
     def list(self, request):
-        queryset = Ressource.objects.filter(Q(author=User.objects.get(pk=self.request.user.id)) | Q(participate__user=User.objects.get(pk=self.request.user.id))) #FIXME with self.request.user
+        queryset = Ressource.objects.filter(Q(author=User.objects.get(pk=self.request.user.id)) | Q(participate__user=User.objects.get(pk=self.request.user.id)))
         serializer = RessourceSerializer(queryset, many=True)
         return Response(serializer.data)
 
