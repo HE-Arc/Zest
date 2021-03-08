@@ -2,7 +2,11 @@ from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
 from . import views
 from .views import RessourceViewSet
-
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+    TokenVerifyView,
+)
 
 ressource_list = RessourceViewSet.as_view({
     'get': 'list',
@@ -27,16 +31,18 @@ ressource_participate_detail = RessourceViewSet.as_view({
 urlpatterns = [
     path('', views.index, name='home'),
 
-    path('login', views.login, name='login'),
-    path('logout', views.logout, name='logout'),
-
     path('ressources', ressource_list, name='ressource-list'),
     path('ressources/<int:pk>', ressource_detail, name='ressource-detail'),
     path('ressources/<int:pk>/participants', ressource_participate_list, name='ressource-participant-list'),
     path('ressources/<int:pk>/participants/<int:participant>', ressource_participate_detail, name='ressource-participant-detail'),
     
     path('users', views.user_create, name='user_create'),
-    path('users/<int:id>/', views.user_update, name='user_update')
+    path('users/<int:id>/', views.user_update, name='user_update'),
+
+    # AUTH JWT
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

@@ -17,25 +17,25 @@ from rest_framework import status
 class RessourceViewSet(viewsets.ModelViewSet):
     queryset = Ressource.objects.all()
     serializer_class = RessourceSerializer
-    #permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
-    permission_classes = [IsOwnerOrReadOnly]
+
+    permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
 
     def perform_create(self, serializer):
-        serializer.save(author=User.objects.get(pk=1), ressource_id=shortuuid.uuid()) #FIXME with self.request.user
+        serializer.save(author=User.objects.get(pk=self.request.user.id), ressource_id=shortuuid.uuid()) #FIXME with self.request.user
 
     def list(self, request):
-        queryset = Ressource.objects.filter(Q(author=User.objects.get(pk=1)) | Q(participate__user=User.objects.get(pk=1))) #FIXME with self.request.user
+        queryset = Ressource.objects.filter(Q(author=User.objects.get(pk=self.request.user.id)) | Q(participate__user=User.objects.get(pk=self.request.user.id))) #FIXME with self.request.user
         serializer = RessourceSerializer(queryset, many=True)
         return Response(serializer.data)
 
-    @action(methods=['post'], detail=False) #FIXME add argument permission_classes=[permissions.IsAuthenticated]
+    @action(methods=['post'], detail=False,  permission_classes=[permissions.IsAuthenticated]) 
     def participate_add(self, request, *args, **kwargs):
         serializer = ParticipateActionSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
 
-    @action(methods=['patch'], detail=True) #FIXME add argument permission_classes=[permissions.IsAuthenticated, IsOwnerOrReadOnly]
+    @action(methods=['patch'], detail=True) 
     def participate_patch(self, request, pk, participant):
         obj = Participate.objects.get(id=participant)
         serializer = ParticipateActionSerializer(obj, data=request.data, partial=True)
@@ -43,7 +43,7 @@ class RessourceViewSet(viewsets.ModelViewSet):
         serializer.save()
         return Response(serializer.data)
 
-    @action(methods=['delete'], detail=True) #FIXME add argument permission_classes=[permissions.IsAuthenticated, IsOwnerOrReadOnly]
+    @action(methods=['delete'], detail=True)
     def participate_delete(self, request,pk,  participant):
         obj = Participate.objects.get(id=participant)
         obj.delete()
@@ -51,12 +51,6 @@ class RessourceViewSet(viewsets.ModelViewSet):
 
 def index(request):
     return JsonResponse("index", safe=False)
-
-def login(request):
-    pass
-
-def logout(request):
-    pass
 
 def user_create(request):
     return HttpResponse("create new user")
