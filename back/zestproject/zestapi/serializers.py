@@ -1,13 +1,26 @@
-from django.contrib.auth.models import User, Group
-from django.db.models import fields
+from django.contrib.auth.models import User
 from rest_framework import serializers
-
+from rest_framework.validators import UniqueValidator
 from .models import Ressource, Participate
 
 class UserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(min_length=6)
+    email = serializers.EmailField(
+            required=True,
+            validators=[UniqueValidator(queryset=User.objects.all())]
+            )
     class Meta:
         model = User
-        exclude = ['password']
+        fields = "__all__"
+        extra_kwargs = {
+            'password': {'write_only': True},
+        }
+
+    def create(self, validated_data):
+        user = User.objects.create_user(validated_data['username'],
+                                        password = validated_data['password'],
+                                        email=validated_data['email'])
+        return user
 
 class ParticipateSerializer(serializers.ModelSerializer):
     class Meta:
