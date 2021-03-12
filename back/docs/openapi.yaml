@@ -1,0 +1,330 @@
+openapi: 3.0.0
+info:
+  title: Zest API
+  description: This API allow to interact with Zest
+  version: ALPHA
+servers:
+  - url: 'https://zest.srvz-webapp.he-arc.ch/api'
+    description: 'main API'
+security:
+  - bearerAuth: []
+paths:
+  /ressources:
+    get:
+      summary: Return a list of ressources
+      responses:
+        '200':
+          description: >-
+            A JSON array of ressources that you have created or in which you
+            have participated
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ressource'
+    post:
+      summary: Add a resource
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserForm'
+      responses:
+        '200':
+          description: Sucessfully created a new resource
+  /ressources/{ressourceId}:
+    parameters:
+      - in: path
+        name: ressourceId
+        schema:
+          type: integer
+        required: true
+    get:
+      summary: Return a ressource
+      responses:
+        '200':
+          description: A description of the resource you asked for
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ressource'
+        '404':
+          description: Your booking doesn't exist
+    put:
+      summary: Replace a resource
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserForm'
+      responses:
+        '200':
+          description: Sucessfully replace a resource
+          
+    patch:
+      summary: Partially update a resource
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ressource'
+              
+      responses:
+        '200':
+          description: Sucessfully update a resource
+    delete:
+      summary: 'Delete a resource'
+      responses:
+        '200':
+          description: Successfully delete a resource
+        '404':
+          description: Your resource doesn't exist
+  /ressources/{ressourceId}/bookings:
+    parameters:
+      - in: path
+        name: ressourceId
+        schema:
+          type: integer
+        required: true
+    post:
+      summary: 'Add a new booking to a resource'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookingForm'
+      responses:
+        '200':
+          description: Sucessfully created a new booking on a resource
+  /ressources/{ressourceId}/bookings/{bookingId}:
+    parameters:
+      - in: path
+        name: ressourceId
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: bookingId
+        schema:
+          type: integer
+        required: true
+    patch:
+      summary: 'Edit a booking to a resource'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookingUpdateForm'
+      responses:
+        '200':
+          description: Sucessfully created a new booking on a resource
+    delete:
+      summary: 'Delete a booking'
+      responses:
+        '200':
+          description: Successfully delete a booking
+  /users:
+    get:
+      summary: Returns a list of users.
+      description: Optional extended description in CommonMark or HTML.
+      responses:
+        '200':
+          description: A JSON array of user names
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+    post:
+      summary: 'Create a user'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserForm'
+      responses:
+        '200':
+          description: Successfully created a user
+  /users/{userId}:
+    parameters:
+      - in: path
+        name: userId
+        schema:
+          type: integer
+        required: true
+    get:
+      summary: Return details for a user
+      responses:
+        '200':
+          description: Return all user's attributs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: Your booking doesn't exist
+    delete:
+      summary: 'Delete a booking'
+      responses:
+        '200':
+          description: Successfully delete a booking
+  /token:
+    post:
+      summary: 'Get token access'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenForm'
+      responses:
+        '200':
+          description: Successfully login and get a token
+components:
+  responses:
+    UnauthorizedError:
+      description: Access token is missing or invalid
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    TokenForm:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    UserForm:
+      type: object
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+    BookingForm:
+      type: object
+      properties:
+        user:
+          type: integer
+        ressource:
+          type: integer
+        date_start:
+          type: string
+        date_end:
+          type: string
+    BookingUpdateForm:
+      type: object
+      properties:
+        date_start:
+          type: string
+        date_end:
+          type: string
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        password:
+          type: string
+        email:
+          type: string
+        last_login:
+          type: string
+        is_superuser:
+          type: boolean
+        username:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        is_staff:
+          type: boolean
+        is_active:
+          type: boolean
+        date_joined:
+          type: string
+        groups:
+          type: array
+          items:
+            type: integer
+        user_persmissions:
+          type: array
+          items:
+            type: integer
+    Ressource:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        picture:
+          type: string
+        date_start:
+          type: string
+        date_end:
+          type: string
+        created_at:
+          type: string
+        update_at:
+          type: string
+        ressource_id:
+          type: string
+          description: Used to retrieve a resource
+        author:
+          $ref: '#/components/schemas/User'
+        bookings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Booking'
+    RessourceForm:
+      type: object
+      properties:
+        name:
+          type: string
+        picture:
+          type: string
+        date_start:
+          type: string
+        date_end:
+          type: string
+        created_at:
+          type: string
+        update_at:
+          type: string
+        ressource_id:
+          type: string
+          description: Used to retrieve a resource
+        author:
+          type: integer
+        bookings:
+          type: array
+          items:
+            type: integer
+    Booking:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+        ressource:
+          $ref: '#/components/schemas/Ressource'
+        date_start:
+          type: string
+        date_end:
+          type: string
+        created_at:
+          type: string
+        update_at:
+          type: string
