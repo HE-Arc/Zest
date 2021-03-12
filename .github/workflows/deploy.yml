@@ -1,0 +1,24 @@
+name: Continus Delivery
+
+on: 
+  push:
+    branches:
+      - develop
+
+jobs:
+  deliver-main:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: checkout main branch
+        uses: actions/checkout@v2
+        with:
+          ref: develop
+          in case we want to deploy a certain branch (ex : serve main and develop at different points)
+      - name: setup ruby env
+        uses: ruby/setup-ruby@v1
+      - uses: miloserdow/capistrano-deploy@master
+        with:
+          target: production
+          deploy_key: ${{ secrets.DEPLOY_SSH_PK }}
