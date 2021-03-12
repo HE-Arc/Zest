@@ -5,6 +5,7 @@
 </template>
 
 <script>
+// Source : https://github.com/ClintOxx/vuetify-admin-dashboard
 export default {
   props: {
     fullWidth: {

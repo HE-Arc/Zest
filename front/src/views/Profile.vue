@@ -64,6 +64,16 @@
                 prepend-icon="mdi-email"
                 class="my-5"
               />
+              <v-flex>
+                <v-layout column align-center>
+                  <v-switch
+                    v-model="$vuetify.theme.dark"
+                    inset
+                    label="Dark Theme"
+                    persistent-hint
+                  ></v-switch>
+                </v-layout>
+              </v-flex>
               <v-btn
                 elevation="4"
                 x-large
