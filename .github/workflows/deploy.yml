@@ -6,11 +6,10 @@ on:
       - develop
 
 jobs:
-  deliver-main:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-
       - name: checkout main branch
         uses: actions/checkout@v2
         with:
@@ -18,7 +17,6 @@ jobs:
       - name: setup ruby env
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.6
           bundler-cache: true
       - uses: miloserdow/capistrano-deploy@master
         with:
