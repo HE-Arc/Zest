@@ -18,6 +18,9 @@ jobs:
           in case we want to deploy a certain branch (ex : serve main and develop at different points)
       - name: setup ruby env
         uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7
+          bundler-cache: true
       - uses: miloserdow/capistrano-deploy@master
         with:
           target: production
