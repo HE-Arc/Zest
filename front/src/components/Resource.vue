@@ -17,15 +17,15 @@
                 </v-list-item-content>
 
                 <v-row align="center" justify="end">
-                    <v-icon class="mr-1"> mdi-file-tree </v-icon>
-                    <span class="subheading">{{ this.nbTasks }}</span>
+                    <v-icon class="mr-1"> mdi-account-multiple </v-icon>
+                    <span class="subheading">{{ this.nbPeople }}</span>
                 </v-row>
             </v-list-item>
         </v-card-actions>
     </v-card>
 </template>
 
-
+§
 <!-- SCRIPT -->
 <script lang="ts">
 import Vue from "vue";
@@ -40,7 +40,7 @@ export default Vue.extend({
         id: String,
         authorName: String,
         authorAvatar: String,
-        nbTasks: Number
+        nbPeople: Number
     },
     data() {
         return {
