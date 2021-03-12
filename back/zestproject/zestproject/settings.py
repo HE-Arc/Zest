@@ -26,7 +26,7 @@ SECRET_KEY = 'fq1c$kpaaygq_$ow9dvr0_wfvhsgimmn^ffps+h%h%g899e)il'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['zest.srvz-webapp.he-arc.ch']
 
 # AUTH
 
