@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
-from .models import Ressource, Participate
+from .models import Ressource, Booking
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(min_length=6)
@@ -22,19 +22,19 @@ class UserSerializer(serializers.ModelSerializer):
                                         email=validated_data['email'])
         return user
 
-class ParticipateSerializer(serializers.ModelSerializer):
+class BookingSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Participate
+        model = Booking
         exclude = ['ressource', 'id']
         depth = 1
 
-class ParticipateActionSerializer(serializers.ModelSerializer):
+class BookingActionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Participate
+        model = Booking
         fields = '__all__'
 
 class RessourceSerializer(serializers.ModelSerializer):
-    participants = ParticipateSerializer(source="participate_set", many=True,required=False) # la source est importante, par défaut : tablename + "_set" ou alors définir un nom spécifique
+    participants = BookingSerializer(source="booking_set", many=True,required=False) # la source est importante, par défaut : tablename + "_set" ou alors définir un nom spécifique
     author = UserSerializer(required=False)
 
     class Meta:

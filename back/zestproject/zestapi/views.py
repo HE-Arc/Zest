@@ -1,7 +1,7 @@
-from .models import Participate, Ressource
+from .models import Booking, Ressource
 from django.contrib.auth.models import User
 from django.http.response import HttpResponse, JsonResponse
-from .serializers import UserSerializer, RessourceSerializer, ParticipateActionSerializer
+from .serializers import UserSerializer, RessourceSerializer, BookingActionSerializer
 from .permissions import IsOwnerOrReadOnly, IsOwnerOrAdmin
 from rest_framework.response import Response
 from rest_framework import viewsets
@@ -42,31 +42,25 @@ class RessourceViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     @action(methods=['post'], detail=False,  permission_classes=[permissions.IsAuthenticated]) 
-    def participate_add(self, request, *args, **kwargs):
-        serializer = ParticipateActionSerializer(data=request.data)
+    def booking_add(self, request, *args, **kwargs):
+        serializer = BookingActionSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
 
     @action(methods=['patch'], detail=True) 
-    def participate_patch(self, request, pk, participant):
-        obj = Participate.objects.get(id=participant)
-        serializer = ParticipateActionSerializer(obj, data=request.data, partial=True)
+    def booking_patch(self, request, pk, booking):
+        obj = Booking.objects.get(id=booking)
+        serializer = BookingActionSerializer(obj, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
 
     @action(methods=['delete'], detail=True)
-    def participate_delete(self, request,pk,  participant):
-        obj = Participate.objects.get(id=participant)
+    def booking_delete(self, request,pk,  participant):
+        obj = Booking.objects.get(id=participant)
         obj.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 def index(request):
     return JsonResponse("index", safe=False)
-
-def user_create(request):
-    return HttpResponse("create new user")
-
-def user_update(request, id):
-    return HttpResponse(f"udate user id: {id}")

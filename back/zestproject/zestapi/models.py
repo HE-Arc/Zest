@@ -12,12 +12,12 @@ class Ressource(models.Model):
     updated_at = models.DateTimeField(auto_now_add=True)
     ressource_id = models.CharField(max_length=255, null=True, blank=True)
     author = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='%(class)s_ressources_created')
-    participants = models.ManyToManyField(User, through='Participate')
+    bookings = models.ManyToManyField(User, through='Booking')
 
     def __str__(self) -> str:
         return self.name
 
-class Participate(models.Model):
+class Booking(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     ressource = models.ForeignKey(Ressource, on_delete=models.CASCADE)
     date_start = models.DateTimeField()
