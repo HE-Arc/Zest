@@ -50,12 +50,12 @@ namespace :python do
             info "config file #{config_path}"
             if test("[ -f #{config_path} ]")
                 info "Env config file found"
-                info "Creating symlink"
                 if test("[ -f #{target_path} ]")
-                    info "Remove old sym link"
+                    info "Remove old file"
                     execute "rm #{target_path}"
                 end
-                execute "ln -s #{config_path} #{target_path}"
+                info "Copying config file into #{target_path} "
+                #execute "cp #{config_path} #{target_path}"
             end
         end
     end
