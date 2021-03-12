@@ -2,6 +2,7 @@
 lock "~> 3.16.0"
 
 set :application, "Zest"
+set :projectname, "zestproject"
 set :repo_url, "https://github.com/HE-Arc/Zest.git"
 
 set :branch, "develop"
@@ -33,7 +34,33 @@ namespace :python do
         end
     end
 
-    after 'python:create_venv', 'python:django_migration'
+    after 'python:create_venv', 'python:django_config'
+
+    desc 'Config file environement'
+    task :django_config do
+        on roles([:app, :web]) do |h|
+            def config_path
+                File.join(shared_path, 'config/env.py')
+            end
+
+            def target_path
+                File.join(release_path, "back/#{fetch(:projectname)}/#{fetch(:projectname)}/env.py")
+            end
+
+            info "config file #{config_path}"
+            if test("[ -f #{config_path} ]")
+                info "Env config file found"
+                info "Creating symlink"
+                if test("[ -f #{target_path} ]")
+                    info "Remove old sym link"
+                    execute "rm #{target_path}"
+                end
+                execute "ln -s #{config_path} #{target_path}"
+            end
+        end
+    end
+
+    after 'python:django_config', 'python:django_migration'
 
     desc 'Django Migrations'
     task :django_migration do
