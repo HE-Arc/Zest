@@ -1,8 +1,8 @@
 <!-- TEMPLATE -->
 <template>
     <v-img v-if="imgUrl && imgUrl != 'user.jpg'" :src="getAvatar()" />
-    <v-avatar v-else color="primary lighten-2" size="40">
-        <span class="white--text headline text-center">{{ getInitials() }}</span>
+    <v-avatar v-else color="primary lighten-2 d-flex" :size="size">
+        <span class="white--text headline text-center align-center justify-center">{{ getInitials() }}</span>
     </v-avatar>
 </template>
 
@@ -14,7 +14,11 @@ import Api from "../logic/api/ApiRequester";
 export default Vue.extend({
     props: {
         imgUrl: String,
-        fullname: String
+        fullname: String,
+        size: {
+            type: String,
+            default: "40"
+        }
     },
     methods: {
         getInitials: function () {
