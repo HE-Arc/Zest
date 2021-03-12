@@ -22,4 +22,5 @@ jobs:
       - uses: miloserdow/capistrano-deploy@master
         with:
           target: production
-          deploy_key: ${{ secrets.DEPLOY_SSH_PK }}
+          deploy_key: ${{ secrets.DEPLOY_ENC_PASS }}
+          enc_rsa_key_val: ${{ secrets.DEPLOY_ENC_PRIVATE_KEY }}
