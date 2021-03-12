@@ -6,7 +6,7 @@ on:
       - develop
 
 jobs:
-  test:
+  Deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,7 +19,8 @@ jobs:
         with:
           bundler-cache: true
           ruby-version: 3.0
-      - uses: miloserdow/capistrano-deploy@master
+      - name: Capistrano deploy
+        uses: miloserdow/capistrano-deploy@master
         with:
           target: production
           deploy_key: ${{ secrets.DEPLOY_ENC_PASS }}
