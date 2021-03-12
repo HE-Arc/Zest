@@ -41,7 +41,7 @@
           >
           </Avatar>
           <v-card-text class="text-xs-center">
-            <h3 class="card-title font-weight-light text-center">
+            <h3 class="card-title font-weight-light text-center mb-2">
               Fridez Lucas
             </h3>
             <p class="card-description font-weight-light text-center">
