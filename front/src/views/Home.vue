@@ -17,15 +17,18 @@
       />
       <v-btn elevation="4" x-large class="primary my-3">Create</v-btn>
     </div>
+    <Resource title="My resource" id="1" authorName="Lucas Fridez" authorAvatar="" nbTasks="2"/>
   </v-container>
 </template>
 
 <script lang="js">
 import Vue from "vue";
 
+import Resource from "../components/Resource";
+
 export default Vue.extend({
     name: "Home",
-    components: {},
+    components: {Resource},
     methods: {
         //
     },
