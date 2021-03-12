@@ -8,45 +8,31 @@ from rest_framework_simplejwt.views import (
     TokenVerifyView,
 )
 
-ressource_list = RessourceViewSet.as_view({
-    'get': 'list',
-    'post': 'create'
-})
-ressource_detail = RessourceViewSet.as_view({
-    'get': 'retrieve',
-    'put': 'update',
-    'patch': 'partial_update',
-    'delete': 'destroy'
-})
-
-user_list = UserViewSet.as_view({
-    'get': 'list',
-    'post': 'create'
-})
-
-user_detail = UserViewSet.as_view({
-    'get': 'retrieve'
-})
-
-ressource_participate_list = RessourceViewSet.as_view({
-    'post': 'participate_add'
-})
-
-ressource_participate_detail = RessourceViewSet.as_view({
-    'patch': 'participate_patch',
-    'delete': 'participate_delete'
-})
-
 urlpatterns = [
-    path('', views.index, name='home'),
-
-    path('ressources', ressource_list, name='ressource-list'),
-    path('ressources/<int:pk>', ressource_detail, name='ressource-detail'),
-    path('ressources/<int:pk>/participants', ressource_participate_list, name='ressource-participant-list'),
-    path('ressources/<int:pk>/participants/<int:participant>', ressource_participate_detail, name='ressource-participant-detail'),
-    
-    path('users', user_list, name='user_list'),
-    path('users/<int:pk>/', user_detail, name='user_detail'),
+    path('ressources', RessourceViewSet.as_view({
+                            'get': 'list',
+                            'post': 'create'
+                        })),
+    path('ressources/<int:pk>', RessourceViewSet.as_view({
+                                    'get': 'retrieve',
+                                    'put': 'update',
+                                    'patch': 'partial_update',
+                                    'delete': 'destroy'
+                                })),
+    path('ressources/<int:pk>/bookings', RessourceViewSet.as_view({
+                                                'post': 'booking_add'
+                                            })),
+    path('ressources/<int:pk>/bookings/<int:participant>', RessourceViewSet.as_view({
+                                                                'patch': 'booking_patch',
+                                                                'delete': 'booking_delete'})),
+    path('users', UserViewSet.as_view({
+                        'get': 'list',
+                        'post': 'create',
+                    })),
+    path('users/<int:pk>/', UserViewSet.as_view({
+                                'get': 'retrieve',
+                                'delete': 'destroy'
+                            })),
 
     # AUTH JWT
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
