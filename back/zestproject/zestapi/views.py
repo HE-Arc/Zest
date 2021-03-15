@@ -44,6 +44,14 @@ class UserViewSet(viewsets.ModelViewSet):
             self.permission_classes = (permissions.AllowAny,)
 
         return super(UserViewSet, self).get_permissions()
+    
+    @action(methods=['patch'], detail=True) 
+    def user_patch(self, request, *args, **kwargs):
+        obj = User.objects.get(id=request.user.id)
+        serializer = UserSerializer(obj, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
 
 class RessourceViewSet(viewsets.ModelViewSet):
     queryset = Ressource.objects.all()

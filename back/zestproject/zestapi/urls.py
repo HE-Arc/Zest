@@ -28,6 +28,7 @@ urlpatterns = [
     path('users', UserViewSet.as_view({
                         'get': 'list',
                         'post': 'create',
+                        'patch': 'user_patch'
                     })),
     path('users/<int:pk>/', UserViewSet.as_view({
                                 'get': 'retrieve',
