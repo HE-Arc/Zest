@@ -42,7 +42,7 @@
           </Avatar>
           <v-card-text class="text-xs-center">
             <h3 class="card-title font-weight-light text-center mb-2">
-              Fridez Lucas
+              {{this.$store.state.fullname}}
             </h3>
             <p class="card-description font-weight-light text-center">
               You need to change personnal information ? The form below can help
