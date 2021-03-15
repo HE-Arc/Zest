@@ -99,7 +99,7 @@ export default Vue.extend({
                     password: this.password,
                     password_confirmation: this.passwordConfirmation
                 });
-                this.$router.push({name: "Workbooks"});
+                this.$router.push({name: "Home"});
             } catch (e) {
                 if (e instanceof ZestError422) {
                     const errors = e.data.errors;
