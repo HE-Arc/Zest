@@ -106,12 +106,8 @@ class ApiRequester {
    */
   async register(account) {
     try {
-      const response = await this.instanceAxios.post("users", account);
-      //TODO
-      this.token = response.data.access;
-      const user = response.data.user;
-      store.dispatch("login", { token: this.token, user: user });
-      return response;
+      await this.instanceAxios.post("users", account);
+      this.login({username: account.username, password: account.password});
     } catch (error) {
       const data = error.response.data;
       if (data.data == undefined) {

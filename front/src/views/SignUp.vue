@@ -97,8 +97,8 @@ export default Vue.extend({
             this.loading = true;
             try {
                 await Api.register({
-                    lastname: this.name,
-                    firstname: this.firstname,
+                    last_name: this.name,
+                    first_name: this.firstname,
                     username: this.username,
                     email: this.email,
                     password: this.password
