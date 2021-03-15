@@ -1,80 +1,83 @@
 <template>
   <CardPage title="Sign Up">
-    <v-card-text>
-      <v-text-field
-        label="Name"
-        v-model="name"
-        :disabled="loading"
-        :rules="[rules.required]"
-        prepend-icon="mdi-card-account-details"
-        :error-messages="errors['name']"
-        class="my-5"
-      ></v-text-field>
-      <v-text-field
-        label="Firstname"
-        v-model="firstname"
-        :disabled="loading"
-        :rules="[rules.required]"
-        prepend-icon="mdi-account-circle"
-        :error-messages="errors['firstname']"
-        class="my-5"
-      ></v-text-field>
-      <v-text-field
-        label="Email"
-        v-model="email"
-        :disabled="loading"
-        :rules="[rules.email]"
-        prepend-icon="mdi-email"
-        :error-messages="errors['email']"
-        class="my-5"
-      ></v-text-field>
+    <v-form v-model="isFormValid">
+      <v-card-text>
+        <v-text-field
+          label="Name"
+          v-model="name"
+          :disabled="loading"
+          :rules="[rules.required]"
+          prepend-icon="mdi-card-account-details"
+          :error-messages="errors['name']"
+          class="my-5"
+        ></v-text-field>
+        <v-text-field
+          label="Firstname"
+          v-model="firstname"
+          :disabled="loading"
+          :rules="[rules.required]"
+          prepend-icon="mdi-account-circle"
+          :error-messages="errors['firstname']"
+          class="my-5"
+        ></v-text-field>
+        <v-text-field
+          label="Email"
+          v-model="email"
+          :disabled="loading"
+          :rules="[rules.email]"
+          prepend-icon="mdi-email"
+          :error-messages="errors['email']"
+          class="my-5"
+        ></v-text-field>
+        <v-spacer></v-spacer>
+        <v-text-field
+          :append-icon="showPassord ? 'mdi-eye' : 'mdi-eye-off'"
+          prepend-icon="mdi-lock"
+          :disabled="loading"
+          :rules="[rules.required, rules.min]"
+          :type="showPassord ? 'text' : 'password'"
+          label="Password"
+          v-model="password"
+          :error-messages="errors['password']"
+          class="my-5"
+          @click:append="showPassord = !showPassord"
+        ></v-text-field>
+        <v-text-field
+          :append-icon="showPassord ? 'mdi-eye' : 'mdi-eye-off'"
+          prepend-icon="mdi-lock"
+          :disabled="loading"
+          :rules="[rules.required, rules.min]"
+          :type="showPassord ? 'text' : 'password'"
+          label="Password confirmation"
+          v-model="passwordConfirmation"
+          class="my-5"
+          @keydown.enter="signup"
+          @click:append="showPassord = !showPassord"
+        ></v-text-field>
+      </v-card-text>
+      <v-btn
+        elevation="4"
+        x-large
+        class="primary white--text my-3 mt-0 mb-5"
+        large
+        rounded
+        :loading="loading"
+        v-on:click="signup"
+        :disabled="!isFormValid"
+        >Sign Up</v-btn
+      >
       <v-spacer></v-spacer>
-      <v-text-field
-        :append-icon="showPassord ? 'mdi-eye' : 'mdi-eye-off'"
-        prepend-icon="mdi-lock"
-        :disabled="loading"
-        :rules="[rules.required, rules.min]"
-        :type="showPassord ? 'text' : 'password'"
-        label="Password"
-        v-model="password"
-        :error-messages="errors['password']"
-        class="my-5"
-        @click:append="showPassord = !showPassord"
-      ></v-text-field>
-      <v-text-field
-        :append-icon="showPassord ? 'mdi-eye' : 'mdi-eye-off'"
-        prepend-icon="mdi-lock"
-        :disabled="loading"
-        :rules="[rules.required, rules.min]"
-        :type="showPassord ? 'text' : 'password'"
-        label="Password confirmation"
-        v-model="passwordConfirmation"
-        class="my-5"
-        @keydown.enter="signup"
-        @click:append="showPassord = !showPassord"
-      ></v-text-field>
-    </v-card-text>
-    <v-btn
-      elevation="4"
-      x-large
-      class="primary white--text my-3 mt-0 mb-5"
-      large
-      rounded
-      :loading="loading"
-      v-on:click="signup"
-      >Sign Up</v-btn
-    >
-    <v-spacer></v-spacer>
-    <v-flex>
-      <v-layout column align-center>
-        <v-switch
-          v-model="$vuetify.theme.dark"
-          inset
-          label="Dark Theme"
-          persistent-hint
-        ></v-switch>
-      </v-layout>
-    </v-flex>
+      <v-flex>
+        <v-layout column align-center>
+          <v-switch
+            v-model="$vuetify.theme.dark"
+            inset
+            label="Dark Theme"
+            persistent-hint
+          ></v-switch>
+        </v-layout>
+      </v-flex>
+    </v-form>
   </CardPage>
 </template>
 
@@ -130,6 +133,7 @@ export default Vue.extend({
                 firstname: "",
                 password: ""
             },
+            isFormValid: false,
             rules: {
                 required: (value) => !!value || "Required",
                 min: (v) => v.length >= 6 || "Minimum 6 characters",
