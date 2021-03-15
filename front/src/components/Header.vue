@@ -8,17 +8,35 @@
     </router-link>
 
     <v-spacer></v-spacer>
-    <router-link to="/" class="white--text">Home</router-link> |
-    <router-link to="/Login" class="white--text">Login</router-link>
-    <router-link to="/SignUp" class="white--text">SignUp</router-link>
-    <v-btn
-      href="https://github.com/vuetifyjs/vuetify/releases/latest"
-      target="_blank"
-      text
-    >
-      <span class="mr-2">Latest Release</span>
-      <v-icon>mdi-open-in-new</v-icon>
-    </v-btn>
+
+    <!-- Logged in -->
+    <div v-if="1 == 1">
+      <!-- Profile -->
+      <v-btn to="/Home" class="mx-1 px-sm-1" text>
+        <span class="hidden-md-and-down mr-2">Find resource</span>
+        <v-icon>mdi-magnify</v-icon>
+      </v-btn>
+
+      <!-- Profile -->
+      <v-btn to="/Profile" class="mx-1 px-sm-1" text>
+        <span class="hidden-md-and-down mr-2">Profil</span>
+        <v-icon>mdi-account-circle</v-icon>
+      </v-btn>
+
+      <!-- Login -->
+      <v-btn to="/Logout" class="mx-1 px-sm-1" text>
+        <span class="hidden-md-and-down mr-2">Logout</span>
+        <v-icon>mdi-power</v-icon>
+      </v-btn>
+    </div>
+
+    <!-- Not logged in -->
+    <div v-if="1 == 2">
+      <v-btn to="/Login" class="mx-1 px-sm-1" text>
+        <span class="hidden-md-and-down mr-2">Login</span>
+        <v-icon>mdi-account-key</v-icon>
+      </v-btn>
+    </div>
   </v-app-bar>
 </template>
 

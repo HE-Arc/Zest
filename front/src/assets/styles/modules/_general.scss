@@ -1,20 +1,32 @@
 .background-gradient {
-    background: linear-gradient(60deg, var(--v-primary-lighten5), var(--v-primary-lighten1));
+  background: linear-gradient(
+    60deg,
+    var(--v-primary-lighten5),
+    var(--v-primary-lighten1)
+  );
 }
 
 .background-accent-gradient {
-    background: linear-gradient(0deg, var(--v-accent-lighten3), var(--v-primary-lighten3));
+  background: linear-gradient(
+    0deg,
+    var(--v-accent-lighten3),
+    var(--v-primary-lighten3)
+  );
 }
 
 .v-app-bar {
-    h1 {
-        color: #fff;
-    }
+  h1 {
+    color: #fff;
+  }
 }
 
 .theme--dark,
 .theme--light {
-    .background-primary {
-        background: var(--v-primary-base);
-    }
+  .background-primary {
+    background: var(--v-primary-base);
+  }
+}
+
+header .v-btn:not(.v-btn--round).v-size--default {
+  min-width: 48px;
 }
