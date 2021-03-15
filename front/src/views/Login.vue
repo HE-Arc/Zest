@@ -2,10 +2,10 @@
   <CardPage title="Login">
       <v-card-text>
             <v-text-field
-              label="Email"
-              v-model="email"
+              label="Username"
+              v-model="username"
               :disabled="loading"
-              :rules="[rules.email]"
+              :rules="[rules.username]"
               prepend-icon="mdi-email"
               class="my-5"
             ></v-text-field>
@@ -89,15 +89,12 @@ export default Vue.extend({
             loading: false,
             errorPost: "",
             password: "",
-            email: "",
+            username: "",
             showPassord: false,
             rules: {
                 required: (value) => !!value || "Required",
                 min: (v) => v.length >= 6 || "Minimum 6 characters",
-                email: (value) => {
-                    const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                    return pattern.test(value) || "Invalid e-mail.";
-                }
+                username: (value) => value.length >= 3 || "Minimum 3 characters",
             }
         };
     }
