@@ -21,6 +21,15 @@
           class="my-5"
         ></v-text-field>
         <v-text-field
+          label="Username"
+          v-model="username"
+          :disabled="loading"
+          :rules="[rules.required]"
+          prepend-icon="mdi-account-details"
+          :error-messages="errors['username']"
+          class="my-5"
+        ></v-text-field>
+        <v-text-field
           label="Email"
           v-model="email"
           :disabled="loading"
@@ -42,18 +51,6 @@
           class="my-5"
           @click:append="showPassord = !showPassord"
         ></v-text-field>
-        <v-text-field
-          :append-icon="showPassord ? 'mdi-eye' : 'mdi-eye-off'"
-          prepend-icon="mdi-lock"
-          :disabled="loading"
-          :rules="[rules.required, rules.min]"
-          :type="showPassord ? 'text' : 'password'"
-          label="Password confirmation"
-          v-model="passwordConfirmation"
-          class="my-5"
-          @keydown.enter="signup"
-          @click:append="showPassord = !showPassord"
-        ></v-text-field>
       </v-card-text>
       <v-btn
         elevation="4"
@@ -66,6 +63,10 @@
         :disabled="!isFormValid"
         >Sign Up</v-btn
       >
+      <v-spacer></v-spacer>
+      <v-btn to="/Login" text color="primary mb-5 mt-0">
+        I already have an account !
+      </v-btn>
       <v-spacer></v-spacer>
       <v-flex>
         <v-layout column align-center>
@@ -96,20 +97,21 @@ export default Vue.extend({
             this.loading = true;
             try {
                 await Api.register({
-                    name: this.name,
+                    lastname: this.name,
                     firstname: this.firstname,
+                    username: this.username,
                     email: this.email,
-                    password: this.password,
-                    password_confirmation: this.passwordConfirmation
+                    password: this.password
                 });
                 this.$router.push({name: "Home"});
             } catch (e) {
                 if (e instanceof ZestError422) {
                     const errors = e.data.errors;
-                    this.errors["name"] = errors.name?.[0] ?? "";
-                    this.errors["firstname"] = errors.firstname?.[0] ?? "";
-                    this.errors["email"] = errors.email?.[0] ?? "";
-                    this.errors["password"] = errors.password?.[0] ?? "";
+                    this.errors["name"] = errors.name.[0] ?? "";
+                    this.errors["firstname"] = errors.firstname.[0] ?? "";
+                    this.errors["username"] = errors.username.[0] ?? "";
+                    this.errors["email"] = errors.email.[0] ?? "";
+                    this.errors["password"] = errors.password.[0] ?? "";
                 } else if (e instanceof ZestError) {
                     console.log(e.message); // Error (401, 404 or 500,...)
                 }
@@ -122,9 +124,9 @@ export default Vue.extend({
         return {
             name: "",
             firstname: "",
+            username: "",
             email: "",
             password: "",
-            passwordConfirmation: "",
             loading: false,
             showPassord: false,
             errors: {
