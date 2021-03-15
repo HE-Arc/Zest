@@ -48,7 +48,7 @@
               You need to change personnal information ? The form below can help
               you !
             </p>
-            <v-form class="text-center">
+            <v-form class="text-center" v-model="isFormValid">
               <v-text-field
                 label="Email"
                 v-model="email"
@@ -66,12 +66,14 @@
               <v-text-field
                 label="Name"
                 v-model="lastname"
+                :rules="[rules.required]"
                 prepend-icon="mdi-card-account-details"
                 class="my-5"
               />
               <v-text-field
                 label="Firstname"
                 v-model="firstname"
+                :rules="[rules.required]"
                 prepend-icon="mdi-account-circle"
                 class="my-5"
               />
@@ -92,6 +94,7 @@
                 large
                 @click="updateProfile"
                 rounded
+                :disabled="!isFormValid"
                 :loading="loading"
                 >Update profile</v-btn
               >
@@ -129,6 +132,10 @@ export default Vue.extend({
         lastname: this.$store.state.user.last_name,
         email: this.$store.state.user.email,
         loading: false,
+        isFormValid: true,
+        rules: {
+          required: (value) => !!value || "Required",
+        }
       };
     }
 });
