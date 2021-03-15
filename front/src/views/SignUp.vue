@@ -60,7 +60,7 @@
         rounded
         :loading="loading"
         v-on:click="signup"
-        :disabled="!isFormValid"
+        :disabled="!isFormValid && !alreadyTried"
         >Sign Up</v-btn
       >
       <v-spacer></v-spacer>
@@ -87,7 +87,7 @@ import Vue from "vue";
 import Api from "../logic/api/ApiRequester";
 import CardPage from "../components/CardPage";
 import { ZestError } from "../logic/api/ZestError";
-import { ZestError422 } from "../logic/api/ZestError422";
+import { ZestRegisterError } from "../logic/api/ZestRegisterError";
 
 export default Vue.extend({
     name: "SignUp",
@@ -105,13 +105,12 @@ export default Vue.extend({
                 });
                 this.$router.push({name: "Home"});
             } catch (e) {
-                if (e instanceof ZestError422) {
-                    const errors = e.data.errors;
-                    this.errors["name"] = errors.name.[0] ?? "";
-                    this.errors["firstname"] = errors.firstname.[0] ?? "";
+                if (e instanceof ZestRegisterError) {
+                    const errors = e.message;
                     this.errors["username"] = errors.username.[0] ?? "";
                     this.errors["email"] = errors.email.[0] ?? "";
-                    this.errors["password"] = errors.password.[0] ?? "";
+                    this.alreadyTried = true;
+                    console.log(this.alreadyTried);
                 } else if (e instanceof ZestError) {
                     console.log(e.message); // Error (401, 404 or 500,...)
                 }
@@ -132,10 +131,12 @@ export default Vue.extend({
             errors: {
                 email: "",
                 name: "",
+                username: "",
                 firstname: "",
                 password: ""
             },
             isFormValid: false,
+            alreadyTried: false,
             rules: {
                 required: (value) => !!value || "Required",
                 min: (v) => v.length >= 6 || "Minimum 6 characters",
