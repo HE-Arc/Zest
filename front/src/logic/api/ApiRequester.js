@@ -93,10 +93,8 @@ class ApiRequester {
   }
 
   async logout() {
-    const response = await this.get("logout");
     store.dispatch("logout");
     this.token = null;
-    return response;
   }
 
   /**
