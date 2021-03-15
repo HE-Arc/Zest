@@ -25,7 +25,7 @@ class ApiRequester {
   constructor() {
     this.token = null;
     this.instanceAxios = Axios.create({
-      baseURL: `${this.URL}api/`,
+      baseURL: `${this.URL}`,
       headers: {
         "Content-Type": "application/json",
         Accept: "*/*",
@@ -72,7 +72,7 @@ class ApiRequester {
    */
   async login(credentials) {
     try {
-      const response = await this.instanceAxios.post("token/", credentials);
+      const response = await this.instanceAxios.post("api/token/", credentials);
       
       //TODO
       this.token = response.data.access;
@@ -106,7 +106,7 @@ class ApiRequester {
    */
   async register(account) {
     try {
-      const response = await this.instanceAxios.post("auth/signup", account);
+      const response = await this.instanceAxios.post("users", account);
       //TODO
       this.token = response.data.access;
       const user = response.data.user;
