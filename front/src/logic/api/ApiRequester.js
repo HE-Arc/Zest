@@ -2,6 +2,7 @@
 import Axios /*,{ AxiosInstance, AxiosRequestConfig, AxiosResponse }*/ from "axios";
 import { ZestError } from "./ZestError";
 import { ZestError422 } from "./ZestError422";
+import { ZestRegisterError } from "./ZestRegisterError";
 import store from "../../store/index";
 
 /**
@@ -73,8 +74,6 @@ class ApiRequester {
   async login(credentials) {
     try {
       const response = await this.instanceAxios.post("api/token/", credentials);
-
-      //TODO
       this.token = response.data.access;
       const user = response.data.user;
 
@@ -106,18 +105,24 @@ class ApiRequester {
    */
   async register(account) {
     try {
-      const response = await this.instanceAxios.post("users", account);
-      //TODO
-      this.token = response.data.access;
-      const user = response.data.user;
-      store.dispatch("login", { token: this.token, user: user });
-      return response;
+      await this.instanceAxios.post("users", account);
+      this.login({ username: account.username, password: account.password });
     } catch (error) {
-      const data = error.response.data;
-      if (data.data == undefined) {
-        throw new ZestError(data.code, data.message, data.status);
+      const response = error.response;
+      if (error.response.status === 400) {
+        console.log("KO", response);
+        throw new ZestRegisterError(
+          response.code,
+          response.data,
+          response.status
+        );
       } else {
-        throw new ZestError422(data.code, data.message, data.status, data.data);
+        throw new ZestError422(
+          response.code,
+          response.message,
+          response.status,
+          response.data
+        );
       }
     }
   }
