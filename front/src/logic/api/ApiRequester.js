@@ -28,7 +28,7 @@ class ApiRequester {
       baseURL: `${this.URL}`,
       headers: {
         "Content-Type": "application/json",
-        Accept: "*/*",
+        Accept: "application/json",
       },
     });
   }
@@ -73,7 +73,7 @@ class ApiRequester {
   async login(credentials) {
     try {
       const response = await this.instanceAxios.post("api/token/", credentials);
-      
+
       //TODO
       this.token = response.data.access;
       const user = response.data.user;
@@ -82,7 +82,9 @@ class ApiRequester {
       return response.data;
     } catch (error) {
       const data = error.response.data;
-      if (data.data == undefined) {
+      if (error.response.status === 401) {
+        throw new ZestError(data.code, data.detail, data.status);
+      } else if (data.data == undefined) {
         throw new ZestError(data.code, data.message, data.status);
       } else {
         throw new ZestError422(data.code, data.message, data.status, data.data);

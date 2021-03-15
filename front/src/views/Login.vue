@@ -68,7 +68,7 @@ export default Vue.extend({
             this.loading = true;
             try {
                 await Api.login({
-                    username: this.email,
+                    username: this.username,
                     password: this.password
                 });
                 this.errorPost = "";
