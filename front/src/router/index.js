@@ -4,6 +4,7 @@ import Home from '../views/Home.vue';
 import Login from '../views/Login.vue';
 import SignUp from '../views/SignUp.vue';
 import Profile from '../views/Profile.vue';
+import ResourceDetail from '../views/ResourceDetail.vue';
 
 Vue.use(VueRouter)
 
@@ -27,7 +28,12 @@ const routes = [
     path: '/Profile',
     name: 'Profile',
     component: Profile
-  }
+  },
+  {
+    path: '/Resource',
+    name: 'Resource',
+    component: ResourceDetail
+  },
   // ,{
   //   path: '/about',
   //   name: 'About',
