@@ -42,7 +42,7 @@
           </Avatar>
           <v-card-text class="text-xs-center">
             <h3 class="card-title font-weight-light text-center mb-2">
-              {{this.$store.getters.fullname}}
+              {{lastname}} {{ firstname }}
             </h3>
             <p class="card-description font-weight-light text-center">
               You need to change personnal information ? The form below can help
@@ -50,18 +50,29 @@
             </p>
             <v-form class="text-center">
               <v-text-field
+                label="Email"
+                v-model="email"
+                disabled
+                prepend-icon="mdi-email"
+                class="my-5"
+              />
+              <v-text-field
+                label="Username"
+                v-model="this.$store.state.user.username"
+                disabled
+                prepend-icon="mdi-account-details"
+                class="my-5"
+              />
+              <v-text-field
                 label="Name"
+                v-model="lastname"
                 prepend-icon="mdi-card-account-details"
                 class="my-5"
               />
               <v-text-field
                 label="Firstname"
+                v-model="firstname"
                 prepend-icon="mdi-account-circle"
-                class="my-5"
-              />
-              <v-text-field
-                label="Email"
-                prepend-icon="mdi-email"
                 class="my-5"
               />
               <v-flex>
@@ -103,9 +114,11 @@ export default Vue.extend({
         //
     },
     data() {
-        return {
-            //
-        };
+      return {
+        firstname: this.$store.state.user.first_name,
+        lastname: this.$store.state.user.last_name,
+        email: this.$store.state.user.email
+      };
     }
 });
 </script>
