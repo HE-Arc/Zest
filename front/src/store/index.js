@@ -1,42 +1,48 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import Api from "./../logic/api/ApiRequester";
 
 Vue.use(Vuex);
 
 // https://pusher.com/tutorials/authentication-vue-vuex#set-up-vuex-actions
 export default new Vuex.Store({
   state: {
-    fullname: "Adam Smith",
     loggedIn: false,
     status: "",
     token: "",
+    user: null
   },
   mutations: {
-    authenticationSuccess(state, token, user) {
-      // TODO
-    },
-    authenticationError(state) {
-      // TODO
+    authentication(state, {token, user}) {
+      state.token = token;
+      state.loggedIn = true;
+      state.status = "loggedin";
+      state.user = user;
     },
     logout(state) {
       state.token = "";
+      state.loggedIn = false;
+      state.status = "unlogged";
+      state.user = null;
     },
   },
   actions: {
-    login({ commit }, user) {
-      // TODO
-    },
-    register({ commit }, user) {
-      // TODO
+    login({ commit }, payload) {
+      const user = payload.user;
+      const token = payload.token;
+      window.sessionStorage.setItem("user", JSON.stringify(user));
+      window.sessionStorage.setItem("token", token);
+      commit("authentication", {token, user});
     },
     logout({ commit }) {
-      // TODO
+      window.sessionStorage.removeItem("user");
+      window.sessionStorage.removeItem("token");
+      commit("logout");
     },
   },
   modules: {},
   getters: {
-    isLoggedIn: (state) => !!state.token,
+    isLoggedIn: (state) => state.loggedIn,
     authStatus: (state) => state.status,
+    fullname: (state) => `${state.user.last_name} ${state.user.first_name}`
   },
 });

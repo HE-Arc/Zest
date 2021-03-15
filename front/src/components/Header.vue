@@ -10,7 +10,7 @@
     <v-spacer></v-spacer>
 
     <!-- Logged in -->
-    <div v-if="1 == 1">
+    <div v-if="this.$store.getters.isLoggedIn">
       <!-- Profile -->
       <v-btn to="/Home" class="mx-1 px-sm-1" text>
         <span class="hidden-md-and-down mr-2">Find resource</span>
@@ -31,7 +31,7 @@
     </div>
 
     <!-- Not logged in -->
-    <div v-if="1 == 2">
+    <div v-if="!this.$store.getters.isLoggedIn">
       <v-btn to="/Login" class="mx-1 px-sm-1" text>
         <span class="hidden-md-and-down mr-2">Login</span>
         <v-icon>mdi-account-key</v-icon>

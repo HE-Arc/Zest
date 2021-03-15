@@ -68,11 +68,11 @@ export default Vue.extend({
             this.loading = true;
             try {
                 await Api.login({
-                    email: this.email,
+                    username: this.email,
                     password: this.password
                 });
                 this.errorPost = "";
-                this.$router.push({ name: "Workbooks" });
+                this.$router.push({ name: "Home" });
             } catch (e) {
                 if (e instanceof ZestError422) {
                     console.log(e.data); // Errors with sent data
