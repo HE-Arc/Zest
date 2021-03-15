@@ -1,56 +1,59 @@
 <template>
   <CardPage title="Login">
+    <v-form v-model="isFormValid">
       <v-card-text>
-            <v-text-field
-              label="Username"
-              v-model="username"
-              :disabled="loading"
-              :rules="[rules.username]"
-              prepend-icon="mdi-email"
-              class="my-5"
-            ></v-text-field>
-            <v-spacer></v-spacer>
-            <v-text-field
-              :append-icon="showPassord ? 'mdi-eye' : 'mdi-eye-off'"
-              prepend-icon="mdi-lock"
-              :disabled="loading"
-              :rules="[rules.required, rules.min]"
-              :type="showPassord ? 'text' : 'password'"
-              label="Password"
-              v-model="password"
-              class="my-5"
-              @keydown.enter="login"
-              @click:append="showPassord = !showPassord"
-            ></v-text-field>
-            <p v-if="errorPost.length > 0" class="red--text">{{ errorPost }}</p>
-          </v-card-text>
-          <v-btn
-            elevation="4"
-            x-large
-            class="primary white--text my-3"
-            large
-            rounded
-            :loading="loading"
-            v-on:click="login"
-            >Login</v-btn
-          >
-          <v-spacer></v-spacer>
-          <v-btn to="/SignUp" text color="primary mb-5 mt-0">
-            Create an account
-          </v-btn>
-          <v-spacer></v-spacer>
+        <v-text-field
+          label="Username"
+          v-model="username"
+          :disabled="loading"
+          :rules="[rules.username]"
+          prepend-icon="mdi-account-circle"
+          class="my-5"
+        ></v-text-field>
+        <v-spacer></v-spacer>
+        <v-text-field
+          :append-icon="showPassord ? 'mdi-eye' : 'mdi-eye-off'"
+          prepend-icon="mdi-lock"
+          :disabled="loading"
+          :rules="[rules.required, rules.min]"
+          :type="showPassord ? 'text' : 'password'"
+          label="Password"
+          v-model="password"
+          class="my-5"
+          @keydown.enter="login"
+          @click:append="showPassord = !showPassord"
+        ></v-text-field>
+        <p v-if="errorPost.length > 0" class="red--text">{{ errorPost }}</p>
+      </v-card-text>
+      <v-btn
+        elevation="4"
+        x-large
+        class="primary white--text my-3"
+        large
+        rounded
+        :loading="loading"
+        v-on:click="login"
+        :disabled="!isFormValid"
+        >Login</v-btn
+      >
+      <v-spacer></v-spacer>
+      <v-btn to="/SignUp" text color="primary mb-5 mt-0">
+        Create an account
+      </v-btn>
+      <v-spacer></v-spacer>
 
-          <v-flex>
-            <v-layout column align-center>
-              <v-switch
-                v-model="$vuetify.theme.dark"
-                inset
-                label="Dark Theme"
-                persistent-hint
-              ></v-switch>
-            </v-layout>
-          </v-flex>
-        </CardPage>
+      <v-flex>
+        <v-layout column align-center>
+          <v-switch
+            v-model="$vuetify.theme.dark"
+            inset
+            label="Dark Theme"
+            persistent-hint
+          ></v-switch>
+        </v-layout>
+      </v-flex>
+    </v-form>
+  </CardPage>
 </template>
 
 <script lang="js">
@@ -61,7 +64,7 @@ import { ZestError } from "../logic/api/ZestError";
 import { ZestError422 } from "../logic/api/ZestError422";
 
 export default Vue.extend({
-    name: "Login",
+  name: "Login",
     components: {CardPage},
     methods: {
         login: async function () {
@@ -91,6 +94,7 @@ export default Vue.extend({
             password: "",
             username: "",
             showPassord: false,
+            isFormValid: false,
             rules: {
                 required: (value) => !!value || "Required",
                 min: (v) => v.length >= 6 || "Minimum 6 characters",
