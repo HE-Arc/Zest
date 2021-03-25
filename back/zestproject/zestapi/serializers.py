@@ -36,9 +36,10 @@ class BookingActionSerializer(serializers.ModelSerializer):
 class RessourceSerializer(serializers.ModelSerializer):
     participants = BookingSerializer(source="booking_set", many=True,required=False) # la source est importante, par défaut : tablename + "_set" ou alors définir un nom spécifique
     author = UserSerializer(required=False)
+    picture = serializers.ImageField(allow_empty_file=True, required=False)
 
     class Meta:
         model = Ressource
         fields = '__all__'
-        extra_kwargs = {'ressource_id': {'required': False}}
+        extra_kwargs = {'share_id': {'required': False}}
         depth = 1
