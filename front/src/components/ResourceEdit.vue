@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <h2 v-if="resource.id">Update resource</h2>
+        <h2 v-if="isEdit">Update resource</h2>
         <h2 v-else>Create resource</h2>
         <form>
             <v-text-field v-model="resource.name" label="Name" :error-messages="nameErrors" required @input="$v.resource.name.$touch()" @blur="$v.resource.name.$touch()"></v-text-field>
@@ -14,10 +14,10 @@
             </v-layout>
             <v-textarea v-model="resource.description" label="Description"></v-textarea>
             
-            <v-btn class="mr-4" @click="submit" v-if="resource.id">
+            <v-btn class="mr-4" @click="submitUpdate" v-if="isEdit">
                 Update
             </v-btn>
-            <v-btn class="mr-4" @click="submit" v-else>
+            <v-btn class="mr-4" @click="submitCreate" v-else>
                 Create
             </v-btn>
 
@@ -27,12 +27,9 @@
 
 <script lang="js">
 import Vue from "vue";
+import Api from "../logic/api/ApiRequester";
 import { validationMixin } from 'vuelidate'
-import {
-    required,
-    minLength,
-    maxLength
-} from 'vuelidate/lib/validators'
+import { required, minLength, maxLength} from 'vuelidate/lib/validators'
 import DatePicker from '../components/DatePicker'
 
 export default Vue.extend({
@@ -56,24 +53,35 @@ export default Vue.extend({
     }
   },
 
+
+  data() {
+      return {
+          item: this.resource,
+      }
+  },
+  
+
+  methods: {
+    async submitCreate () {
+        var resource = this.resource;
+        try {
+            await Api.post("http://127.0.0.1:8000/ressources", resource);
+        } catch(e){
+            //pass
+        }
+    },
+    async submitUpdate () {
+      console.log('test update');
+    }
+  },
+
   validations: {
       resource: {
           name: { required, minLength: minLength(4), maxLength: maxLength(255) },
       }
   },
 
-  data: () => ({
-  }),
 
-  methods: {
-    submit () {
-      this.$v.$touch()
-    },
-    clear () {
-      this.$v.$reset()
-      this.id
-    },
-  },
 
   computed: {
     nameErrors () {
@@ -84,6 +92,7 @@ export default Vue.extend({
       !this.$v.resource.name.required && errors.push('Name is required.')
       return errors
     },
+    isEdit() { return this.item.id != undefined; }
   }
 });
 </script>
