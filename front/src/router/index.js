@@ -7,6 +7,7 @@ import Logout from "../views/Logout.vue";
 import Profile from "../views/Profile.vue";
 import store from "../store";
 import Api from "../logic/api/ApiRequester";
+import ResourceDetail from '../views/ResourceDetail.vue';
 
 Vue.use(VueRouter);
 
@@ -31,6 +32,11 @@ const routes = [
     meta: {
       onlyUnlogged: true,
     },
+  },
+  {
+    path: '/Resource',
+    name: 'Resource',
+    component: ResourceDetail
   },
   {
     path: "/Profile",
