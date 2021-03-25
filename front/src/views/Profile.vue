@@ -42,26 +42,39 @@
           </Avatar>
           <v-card-text class="text-xs-center">
             <h3 class="card-title font-weight-light text-center mb-2">
-              Fridez Lucas
+              {{ lastname }} {{ firstname }}
             </h3>
             <p class="card-description font-weight-light text-center">
               You need to change personnal information ? The form below can help
               you !
             </p>
-            <v-form class="text-center">
+            <v-form class="text-center" v-model="isFormValid">
+              <v-text-field
+                label="Email"
+                v-model="email"
+                disabled
+                prepend-icon="mdi-email"
+                class="my-5"
+              />
+              <v-text-field
+                label="Username"
+                v-model="this.$store.state.user.username"
+                disabled
+                prepend-icon="mdi-account-details"
+                class="my-5"
+              />
               <v-text-field
                 label="Name"
+                v-model="lastname"
+                :rules="[rules.required]"
                 prepend-icon="mdi-card-account-details"
                 class="my-5"
               />
               <v-text-field
                 label="Firstname"
+                v-model="firstname"
+                :rules="[rules.required]"
                 prepend-icon="mdi-account-circle"
-                class="my-5"
-              />
-              <v-text-field
-                label="Email"
-                prepend-icon="mdi-email"
                 class="my-5"
               />
               <v-flex>
@@ -79,7 +92,10 @@
                 x-large
                 class="primary white--text my-3 mt-0 mb-5"
                 large
+                @click="updateProfile"
                 rounded
+                :disabled="!isFormValid"
+                :loading="loading"
                 >Update profile</v-btn
               >
             </v-form>
@@ -92,6 +108,7 @@
 
 <script lang="js">
 import Vue from "vue";
+import Api from "../logic/api/ApiRequester";
 import TitledCard from "../components/TitledCard"
 import Resource from "../components/Resource"
 import Avatar from "../components/Avatar"
@@ -100,12 +117,26 @@ export default Vue.extend({
     name: "Home",
     components: {TitledCard, Avatar, Resource},
     methods: {
-        //
+        updateProfile: async function() {
+          this.loading = true;
+          await Api.patch("users", {
+              last_name: this.lastname,
+              first_name: this.firstname,
+          });
+          this.loading = false;
+        }
     },
     data() {
-        return {
-            //
-        };
+      return {
+        firstname: this.$store.state.user.first_name,
+        lastname: this.$store.state.user.last_name,
+        email: this.$store.state.user.email,
+        loading: false,
+        isFormValid: true,
+        rules: {
+          required: (value) => !!value || "Required",
+        }
+      };
     }
 });
 </script>

@@ -3,10 +3,10 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from . import views
 from .views import RessourceViewSet, UserViewSet
 from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
     TokenRefreshView,
     TokenVerifyView,
 )
+from .views import MyTokenObtainPairView
 
 urlpatterns = [
     path('ressources', RessourceViewSet.as_view({
@@ -28,6 +28,7 @@ urlpatterns = [
     path('users', UserViewSet.as_view({
                         'get': 'list',
                         'post': 'create',
+                        'patch': 'user_patch'
                     })),
     path('users/<int:pk>/', UserViewSet.as_view({
                                 'get': 'retrieve',
@@ -38,6 +39,7 @@ urlpatterns = [
     path('auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('auth/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

@@ -11,8 +11,26 @@ from django.db.models import Q
 import shortuuid
 from rest_framework.decorators import action
 from rest_framework import status
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 # Create your views here.
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        refresh = self.get_token(self.user)
+        data['refresh'] = str(refresh)
+        data['access'] = str(refresh.access_token)
+
+        # Add extra responses here
+        data['user'] = UserSerializer(self.user).data
+        
+        return data
+
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -27,6 +45,14 @@ class UserViewSet(viewsets.ModelViewSet):
             self.permission_classes = (permissions.AllowAny,)
 
         return super(UserViewSet, self).get_permissions()
+    
+    @action(methods=['patch'], detail=True) 
+    def user_patch(self, request, *args, **kwargs):
+        obj = User.objects.get(id=request.user.id)
+        serializer = UserSerializer(obj, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
 
 class RessourceViewSet(viewsets.ModelViewSet):
     queryset = Ressource.objects.all()

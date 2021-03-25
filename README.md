@@ -8,7 +8,7 @@
 
 This project id developed with :
 
-- PHP Laravel for the API
+- Django for the API
 - VueJS and TypeScript for the WebApp
 
 ## Authors
