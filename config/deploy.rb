@@ -7,8 +7,6 @@ set :repo_url, "https://github.com/HE-Arc/Zest.git"
 
 set :branch, "develop"
 
-after 'deploy:publishing', 'uwsgi:restart'
-
 namespace :uwsgi do
     desc 'Restart application'
     task :restart do
@@ -17,8 +15,6 @@ namespace :uwsgi do
 	    end
     end
 end
-
-after 'deploy:updating', 'python:create_venv'
 
 namespace :python do
     def venv_path
@@ -33,8 +29,6 @@ namespace :python do
 	    execute "#{venv_path}/bin/pip install -r #{release_path}/back/requirements"
         end
     end
-
-    after 'python:create_venv', 'python:django_config'
 
     desc 'Config file environement'
     task :django_config do
@@ -61,7 +55,6 @@ namespace :python do
         end
     end
 
-    after 'python:django_config', 'python:django_migration'
 
     desc 'Django Migrations'
     task :django_migration do
@@ -70,6 +63,33 @@ namespace :python do
         end
     end
 end
+
+namespace :npm do
+    def front_path
+        File.join(release_path, 'front')
+    end
+
+    desc 'NPM install dependencies'
+    task :install do
+        on roles(:web) do |h|
+            execute "cd '#{front_path}'; npm install"
+        end
+    end
+
+    desc 'VueJs build app'
+    task :build do
+        on roles(:web) do |h|
+            execute "cd '#{front_path}'; npm run build"
+        end
+    end
+end
+
+after 'deploy:publishing', 'uwsgi:restart'
+after 'deploy:updating', 'python:create_venv'
+after 'python:create_venv', 'python:django_config'
+after 'python:django_config', 'python:django_migration'
+after 'python:django_migration', 'npm:install'
+after 'npm:install', 'npm:build'
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
