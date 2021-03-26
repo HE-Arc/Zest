@@ -21,6 +21,7 @@
       @uploaded="handleUploaded"
       @completed="handleCompleted"
       @error="handlerError"
+      requestMethod="PATCH"
       :labels="labels"
       trigger="#pick-avatar"
       upload-url="/upload/image"
