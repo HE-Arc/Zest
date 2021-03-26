@@ -12,9 +12,19 @@
         >{{ getInitials() }}</span
       >
     </v-avatar>
-    <v-icon class="icon primary white--text" @click="$refs.FileInput.click()"
+    <v-icon id="pick-avatar" class="icon primary white--text"
       >mdi-upload</v-icon
     >
+
+    <avatar-cropper
+      @uploading="handleUploading"
+      @uploaded="handleUploaded"
+      @completed="handleCompleted"
+      @error="handlerError"
+      :labels="labels"
+      trigger="#pick-avatar"
+      upload-url="/upload/image"
+    />
   </div>
 </template>
 
@@ -23,7 +33,10 @@
 <script lang="ts">
 import Vue from "vue";
 import Api from "../logic/api/ApiRequester";
+import AvatarCropper from "vue-avatar-cropper";
+
 export default Vue.extend({
+  components: { AvatarCropper },
   props: {
     imgUrl: String,
     fullname: String,
@@ -31,6 +44,14 @@ export default Vue.extend({
       type: String,
       default: "40",
     },
+  },
+  data() {
+      return {
+          labels: {
+              submit: "Submit",
+              cancel: "Cancel"
+          }
+      }
   },
   methods: {
     getInitials: function () {
@@ -45,6 +66,30 @@ export default Vue.extend({
     },
     getAvatar: function () {
       return `${Api.getUrl()}storage/avatars/${this.imgUrl}`;
+    },
+    methods: {
+      handleUploading(form, xhr) {
+          console.log(form, xhr);
+        //this.message = "uploading...";
+      },
+      handleUploaded(response) {
+          console.log(response);
+        if (response.status == "success") {
+          this.user.avatar = response.url;
+          // Maybe you need call vuex action to
+          // update user avatar, for example:
+          // this.$dispatch('updateUser', {avatar: response.url})
+          //this.message = "user avatar updated.";
+        }
+      },
+      handleCompleted(response, form, xhr) {
+          console.log(form, xhr, response);
+        //this.message = "upload completed.";
+      },
+      handlerError(message, type, xhr) {
+          console.log(message, type, xhr);
+        //this.message = "Oops! Something went wrong...";
+      },
     },
   },
 });

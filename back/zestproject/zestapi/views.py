@@ -88,5 +88,6 @@ class RessourceViewSet(viewsets.ModelViewSet):
         obj.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
 def index(request):
     return JsonResponse("index", safe=False)
