@@ -9,7 +9,11 @@
         required
         :rules="[rules.required, rules.min]"
       ></v-text-field>
-      
+      <v-img v-if="resource.picture"
+        max-height="150"
+        max-width="250"
+        :src="resource.picture"
+      ></v-img>
       <v-file-input
         label="File input"
         filled
