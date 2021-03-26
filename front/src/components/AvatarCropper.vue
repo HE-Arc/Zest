@@ -47,12 +47,12 @@ export default Vue.extend({
     },
   },
   data() {
-      return {
-          labels: {
-              submit: "Submit",
-              cancel: "Cancel"
-          }
-      }
+    return {
+      labels: {
+        submit: "Submit",
+        cancel: "Cancel",
+      },
+    };
   },
   methods: {
     getInitials: function () {
@@ -68,29 +68,27 @@ export default Vue.extend({
     getAvatar: function () {
       return `${Api.getUrl()}storage/avatars/${this.imgUrl}`;
     },
-    methods: {
-      handleUploading(form, xhr) {
-          console.log(form, xhr);
-        //this.message = "uploading...";
-      },
-      handleUploaded(response) {
-          console.log(response);
-        if (response.status == "success") {
-          this.user.avatar = response.url;
-          // Maybe you need call vuex action to
-          // update user avatar, for example:
-          // this.$dispatch('updateUser', {avatar: response.url})
-          //this.message = "user avatar updated.";
-        }
-      },
-      handleCompleted(response, form, xhr) {
-          console.log(form, xhr, response);
-        //this.message = "upload completed.";
-      },
-      handlerError(message, type, xhr) {
-          console.log(message, type, xhr);
-        //this.message = "Oops! Something went wrong...";
-      },
+    handleUploading(form, xhr) {
+      console.log(form, xhr);
+      //this.message = "uploading...";
+    },
+    handleUploaded(response) {
+      console.log(response);
+      if (response.status == "success") {
+        this.user.avatar = response.url;
+        // Maybe you need call vuex action to
+        // update user avatar, for example:
+        // this.$dispatch('updateUser', {avatar: response.url})
+        //this.message = "user avatar updated.";
+      }
+    },
+    handleCompleted(response, form, xhr) {
+      console.log(form, xhr, response);
+      //this.message = "upload completed.";
+    },
+    handlerError(message, type, xhr) {
+      console.log(message, type, xhr);
+      //this.message = "Oops! Something went wrong...";
     },
   },
 });
