@@ -111,7 +111,7 @@ import Vue from "vue";
 import Api from "../logic/api/ApiRequester";
 import TitledCard from "../components/TitledCard"
 import Resource from "../components/Resource"
-import Avatar from "../components/Avatar"
+import Avatar from "../components/AvatarCropper"
 
 export default Vue.extend({
     name: "Home",
