@@ -16,7 +16,7 @@ export default Vue.extend({
     resource_id: null,
   },
   async beforeMount() {
-      Api.get("http://127.0.0.1:8000/ressources/"+this.resource_id).then((data) => {
+      Api.get("ressources/"+this.resource_id).then((data) => {
           console.log(data);
           this.resource = data;
       });

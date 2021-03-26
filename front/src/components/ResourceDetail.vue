@@ -93,7 +93,7 @@ export default Vue.extend({
     async submitCreate () {
         let data = this._compileData(this.resource);
         try {
-            await Api.post("http://127.0.0.1:8000/ressources", data, {'Content-Type': 'multipart/form-data'});
+            await Api.post("ressources", data, {'Content-Type': 'multipart/form-data'});
             this.$router.push({ name: "Home" });
         } catch(e){
             console.log(e);
@@ -103,7 +103,7 @@ export default Vue.extend({
         let data = this._compileData(this.resource);
         let router = this.$router;
         try {
-            await Api.patch("http://127.0.0.1:8000/ressources/" + this.resource.share_id, data, {'Content-Type': 'multipart/form-data'}).then(() => {
+            await Api.patch("ressources/" + this.resource.share_id, data, {'Content-Type': 'multipart/form-data'}).then(() => {
               router.go();
             });
             //
