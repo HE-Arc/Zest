@@ -5,12 +5,12 @@ from django.contrib.auth.models import User
 class Ressource(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
-    picture = models.ImageField(upload_to='uploads/')
+    picture = models.ImageField(upload_to='uploads/', null=True, blank=True)
     date_start = models.DateField()
-    date_end = models.DateField()
+    date_end = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    share_id = models.CharField(max_length=255, null=True, blank=False, unique=True)
+    share_id = models.CharField(max_length=255, blank=False, unique=True)
     author = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='%(class)s_ressources_created')
     bookings = models.ManyToManyField(User, through='Booking')
 

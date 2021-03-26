@@ -43,5 +43,5 @@ class RessourceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ressource
         fields = '__all__'
-        extra_kwargs = {'share_id': {'required': False}}
+        extra_kwargs = {'share_id': {'required': False},'date_end': {'required': False}}
         depth = 1
