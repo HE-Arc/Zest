@@ -7,7 +7,6 @@ import Logout from "../views/Logout.vue";
 import Profile from "../views/Profile.vue";
 import store from "../store";
 import Api from "../logic/api/ApiRequester";
-import ResourceDetail from '../views/ResourceDetail.vue';
 
 Vue.use(VueRouter);
 
@@ -34,9 +33,21 @@ const routes = [
     },
   },
   {
-    path: '/Resource',
-    name: 'Resource',
-    component: ResourceDetail
+    path: '/resources/new',
+    name: 'resources_new',
+    component: () => import('../views/ResourceNew.vue'),
+    meta: {
+      //onlyLogged: true,
+    },
+  },
+  {
+    path: '/resources/:resource_id/edit',
+    name: 'resources_edit',
+    props: true,
+    component: () => import('../views/ResourceEdit.vue'),
+    meta: {
+      //onlyLogged: true,
+    },
   },
   {
     path: "/Profile",

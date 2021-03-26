@@ -3,8 +3,8 @@
     <v-layout row wrap>
       <v-flex xs12>
         <v-menu
-          ref="menu1"
-          v-model="menu1"
+          ref="menu"
+          v-model="menu"
           :close-on-content-click="false"
           :nudge-right="40"
           transition="scale-transition"
@@ -14,16 +14,15 @@
         >
           <template v-slot:activator="{ on }">
             <v-text-field
-              v-model="dateFormatted"
+              v-model="date"
               :label="label"
               persistent-hint
               prepend-icon="mdi-calendar"
-              @blur="$emit('update:date', parseDate(dateFormatted))"
               v-on="on"
             ></v-text-field>
           </template>
           <v-date-picker
-            v-model="dateCopy"
+            v-model="date"
             locale="fr-ch"
             no-title
             @input="updateDate(date)"
@@ -37,37 +36,6 @@
 <script>
 export default {
   name: "DatePicker",
-  data() {
-    return {
-      dateFormatted: this.formatDate(this.date),
-      dateCopy: this.date,
-      menu1: false,
-    };
-  },
-  watch: {
-    date() {
-      this.dateFormatted = this.formatDate(this.dateCopy);
-    },
-  },
-  methods: {
-    formatDate(date) {
-      if (!date) return null;
-
-      const [year, month, day] = date.split("-");
-      return `${day}-${month}-${year}`;
-    },
-    parseDate(date) {
-      if (!date) return null;
-
-      //const [month, day, year] = date.split("/");
-      //return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
-      return date
-    },
-    updateDate() {
-      this.menu1 = false;
-      this.$emit("update:date", this.dateCopy);
-    },
-  },
   props: {
     date: String,
     label: {
@@ -75,5 +43,16 @@ export default {
       default: "Date",
     },
   },
+  data() {
+    return {
+      menu: false,
+    };
+  },
+  methods: {
+    updateDate() {
+      this.menu = false;
+      this.$emit("update:date", this.date);
+    },
+  }
 };
 </script>
