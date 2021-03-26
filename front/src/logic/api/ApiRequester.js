@@ -73,7 +73,7 @@ class ApiRequester {
    */
   async login(credentials) {
     try {
-      const response = await this.instanceAxios.post("api/token/", credentials);
+      const response = await this.instanceAxios.post("auth/token/", credentials);
       this.token = response.data.access;
       const user = response.data.user;
 
@@ -171,11 +171,11 @@ class ApiRequester {
    * @param {*} [body] body to add in request
    * @return {*}  {Promise<*>} Api Response
    */
-  async request(method, url, body) {
+  async request(method, url, body, headers = {}) {
     const requestConfig = {
       method: method,
       url: url,
-      headers: { Authorization: `Bearer ${this.token}` },
+      headers: Object.assign({}, { Authorization: `Bearer ${this.token}` }, headers),
     };
 
     if (body) {
@@ -203,8 +203,8 @@ class ApiRequester {
    * @param {*} body body to post
    * @return {*}  {Promise<*>} API Response
    */
-  async post(url, body) {
-    return this.request("POST", url, body);
+  async post(url, body, headers = {}) {
+    return this.request("POST", url, body, headers);
   }
 
   /**
@@ -215,8 +215,8 @@ class ApiRequester {
    * @param {*} body body to put
    * @return {*}  {Promise<*>} API Response
    */
-  async put(url, body) {
-    return this.request("PUT", url, body);
+  async put(url, body, headers = {}) {
+    return this.request("PUT", url, body, headers);
   }
 
   /**
@@ -238,8 +238,8 @@ class ApiRequester {
    * @param {*} body body to PATCH
    * @return {*}  {Promise<*>} API Response
    */
-  async patch(url, body) {
-    return this.request("PATCH", url, body);
+  async patch(url, body, headers = {}) {
+    return this.request("PATCH", url, body, headers);
   }
 }
 
