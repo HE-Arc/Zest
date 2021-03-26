@@ -3,7 +3,7 @@
         <h2 v-if="resource.id">Update resource</h2>
         <h2 v-else>Create resource</h2>
         <form>
-            <v-text-field v-model="resource.name" label="Name" :error-messages="nameErrors" required @input="$v.resource.name.$touch()" @blur="$v.resource.name.$touch()"></v-text-field>
+            <v-text-field v-model="resource.name" label="Name" required @input="$v.resource.name.$touch()" @blur="$v.resource.name.$touch()"></v-text-field>
             <v-layout row align-center wrap>
                 <v-flex xs12 sm6 md4>
                     <date-picker :date.sync="resource.dateStart" :label="'From'"/>
@@ -27,17 +27,10 @@
 
 <script lang="js">
 import Vue from "vue";
-import { validationMixin } from 'vuelidate'
-import {
-    required,
-    minLength,
-    maxLength
-} from 'vuelidate/lib/validators'
 import DatePicker from '../components/DatePicker'
 
 export default Vue.extend({
   name: "ResourceEdit",
-  mixins: [validationMixin],
   components: {
       DatePicker
   },
@@ -56,12 +49,6 @@ export default Vue.extend({
     }
   },
 
-  validations: {
-      resource: {
-          name: { required, minLength: minLength(4), maxLength: maxLength(255) },
-      }
-  },
-
   data: () => ({
   }),
 
@@ -75,15 +62,5 @@ export default Vue.extend({
     },
   },
 
-  computed: {
-    nameErrors () {
-      const errors = []
-      if (!this.$v.resource.name.$dirty) return errors
-      !this.$v.resource.name.maxLength && errors.push('Name must be at most 255 characters long')
-      !this.$v.resource.name.minLength && errors.push('Name must be at least 4 characters long')
-      !this.$v.resource.name.required && errors.push('Name is required.')
-      return errors
-    },
-  }
 });
 </script>
