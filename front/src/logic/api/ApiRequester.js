@@ -17,7 +17,7 @@ class ApiRequester {
   static singleton;
   instanceAxios;
   token;
-  URL = "http://localhost:8000/";
+  URL = "/api/";
 
   /**
    * Creates an instance of ApiRequester.
