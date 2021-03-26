@@ -43,6 +43,14 @@ namespace :python do
                 File.join(shared_path, 'config/env.py')
             end
 
+            def upload_src_path
+                File.join(shared_path, "uploads")
+            end
+
+            def upload_target_path
+                File.join(release_path, "back/#{fetch(:projectname)}/uploads")
+            end
+
             def target_path
                 File.join(release_path, "back/#{fetch(:projectname)}/#{fetch(:projectname)}/env.py")
             end
@@ -58,6 +66,10 @@ namespace :python do
                 info "Creating symlink"
                 execute "ln -s #{config_path} #{target_path}"
             end
+            
+            info "Setup upload symlink"
+            execute "ln -s #{upload_src_path} #{upload_target_path}"
+
         end
     end
 
