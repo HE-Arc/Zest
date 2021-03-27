@@ -27,7 +27,9 @@ urlpatterns = [
                                                                 'delete': 'booking_delete'})),
     path('users', UserViewSet.as_view({
                         'get': 'list',
-                        'post': 'create',
+                        'post': 'create'
+                    })),
+    path('users/profile', UserViewSet.as_view({
                         'patch': 'user_patch'
                     })),
     path('users/<int:pk>/', UserViewSet.as_view({
