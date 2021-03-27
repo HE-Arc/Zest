@@ -1,4 +1,4 @@
-from .models import Booking, Ressource
+from .models import Booking, Ressource, UserProfile
 from django.contrib.auth.models import User
 from django.http.response import HttpResponse, JsonResponse
 from .serializers import UserSerializer, RessourceSerializer, BookingActionSerializer
@@ -47,8 +47,7 @@ class UserViewSet(viewsets.ModelViewSet):
     
     @action(methods=['patch'], detail=True) 
     def user_patch(self, request, *args, **kwargs):
-        obj = User.objects.get(id=request.user.id)
-        serializer = UserSerializer(obj, data=request.data, partial=True)
+        serializer = UserSerializer(request.user, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)

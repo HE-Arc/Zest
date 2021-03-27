@@ -2,6 +2,13 @@ from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
 
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    picture = models.ImageField(upload_to="uploads/users/pictures", blank=True)
+
+    def __str__(self) -> str:
+        return f"{self.user}"
+
 class Ressource(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
@@ -15,7 +22,7 @@ class Ressource(models.Model):
     bookings = models.ManyToManyField(User, through='Booking')
 
     def __str__(self) -> str:
-        return self.name
+        return f"{self.id} {self.name}"
 
 class Booking(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
