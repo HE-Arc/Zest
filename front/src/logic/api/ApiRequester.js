@@ -73,7 +73,7 @@ class ApiRequester {
    */
   async login(credentials) {
     try {
-      const response = await this.instanceAxios.post("api/token/", credentials);
+      const response = await this.instanceAxios.post("auth/token/", credentials);
       this.token = response.data.access;
       const user = response.data.user;
 
