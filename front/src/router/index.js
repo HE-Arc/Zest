@@ -33,6 +33,23 @@ const routes = [
     },
   },
   {
+    path: '/resources/new',
+    name: 'resources_new',
+    component: () => import('../views/ResourceNew.vue'),
+    meta: {
+      //onlyLogged: true,
+    },
+  },
+  {
+    path: '/resources/:resource_id/edit',
+    name: 'resources_edit',
+    props: true,
+    component: () => import('../views/ResourceEdit.vue'),
+    meta: {
+      //onlyLogged: true,
+    },
+  },
+  {
     path: "/Profile",
     name: "Profile",
     component: Profile,

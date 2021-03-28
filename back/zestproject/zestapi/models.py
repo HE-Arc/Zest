@@ -12,12 +12,12 @@ class UserProfile(models.Model):
 class Ressource(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
-    picture = models.CharField(max_length=255, null=True, blank=True)
+    picture = models.ImageField(upload_to='uploads/', null=True, blank=True)
     date_start = models.DateField()
-    date_end = models.DateField()
-    created_at = models.DateTimeField(auto_now=True)
-    updated_at = models.DateTimeField(auto_now_add=True)
-    ressource_id = models.CharField(max_length=255, null=True, blank=True)
+    date_end = models.DateField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    share_id = models.CharField(max_length=255, blank=False, unique=True)
     author = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='%(class)s_ressources_created')
     bookings = models.ManyToManyField(User, through='Booking')
 
@@ -29,8 +29,8 @@ class Booking(models.Model):
     ressource = models.ForeignKey(Ressource, on_delete=models.CASCADE)
     date_start = models.DateTimeField()
     date_end = models.DateTimeField()
-    created_at = models.DateTimeField(auto_now=True)
-    updated_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
         return f"{self.id}. {self.ressource.name} -> {self.user.username}"
