@@ -119,7 +119,7 @@ export default Vue.extend({
     methods: {
         updateProfile: async function() {
           this.loading = true;
-          await Api.patch("users", {
+          await Api.patch("users/profile", {
               last_name: this.lastname,
               first_name: this.firstname,
           });

@@ -21,10 +21,15 @@
       @uploaded="handleUploaded"
       @completed="handleCompleted"
       @error="handlerError"
+      @changed="changeFile"
       requestMethod="PATCH"
       :labels="labels"
       trigger="#pick-avatar"
-      upload-url="/upload/image"
+      upload-form-name="picture"
+      :upload-headers="headers"
+      :upload-url="getApiUrl()"
+      :output-mime="outputType"
+      
     />
   </div>
 </template>
@@ -48,10 +53,14 @@ export default Vue.extend({
   },
   data() {
     return {
+      outputType: null,
       labels: {
         submit: "Submit",
         cancel: "Cancel",
       },
+      headers: {
+        "Authorization": `Bearer ${Api.token}`
+      }
     };
   },
   methods: {
@@ -65,8 +74,16 @@ export default Vue.extend({
         return "??";
       }
     },
+    getApiUrl: function() {
+      return `${Api.URL}users/profile`
+    },
     getAvatar: function () {
       return `${Api.getUrl()}storage/avatars/${this.imgUrl}`;
+    },
+    changeFile(file) {
+      this.outputType = file.type;
+      console.log("🚀 ~ file: AvatarCropper.vue ~ line 85 ~ changeFile ~ this.outputType", this.outputType);
+      
     },
     handleUploading(form, xhr) {
       console.log(form, xhr);
