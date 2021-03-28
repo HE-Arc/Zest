@@ -1,7 +1,7 @@
 <!-- TEMPLATE -->
 <template>
   <div class="d-flex user">
-    <v-img v-if="imgUrl && imgUrl != 'user.jpg'" :src="getAvatar()" />
+    <img v-if="useImageAvatar()" :src="getAvatar()" />
     <v-avatar
       v-else
       color="primary lighten-2 d-flex avatar-cropper"
@@ -17,10 +17,7 @@
     >
 
     <avatar-cropper
-      @uploading="handleUploading"
       @uploaded="handleUploaded"
-      @completed="handleCompleted"
-      @error="handlerError"
       @changed="changeFile"
       requestMethod="PATCH"
       :labels="labels"
@@ -29,7 +26,6 @@
       :upload-headers="headers"
       :upload-url="getApiUrl()"
       :output-mime="outputType"
-      
     />
   </div>
 </template>
@@ -42,9 +38,11 @@ import Api from "../logic/api/ApiRequester";
 import AvatarCropper from "vue-avatar-cropper";
 
 export default Vue.extend({
+  created: function () {
+    this.url = this.imgUrl;
+  },
   components: { AvatarCropper },
   props: {
-    imgUrl: String,
     fullname: String,
     size: {
       type: String,
@@ -53,14 +51,15 @@ export default Vue.extend({
   },
   data() {
     return {
+      img: this.$store.getters.avatar,
       outputType: null,
       labels: {
         submit: "Submit",
         cancel: "Cancel",
       },
       headers: {
-        "Authorization": `Bearer ${Api.token}`
-      }
+        Authorization: `Bearer ${Api.token}`,
+      },
     };
   },
   methods: {
@@ -74,38 +73,20 @@ export default Vue.extend({
         return "??";
       }
     },
-    getApiUrl: function() {
-      return `${Api.URL}users/profile`
+    useImageAvatar: function () {
+      return this.$store.getters.avatar != null;
+    },
+    getApiUrl: function () {
+      return `${Api.getUrl()}users/profile`;
     },
     getAvatar: function () {
-      return `${Api.getUrl()}storage/avatars/${this.imgUrl}`;
+      return this.$store.getters.avatar;
     },
     changeFile(file) {
       this.outputType = file.type;
-      console.log("🚀 ~ file: AvatarCropper.vue ~ line 85 ~ changeFile ~ this.outputType", this.outputType);
-      
-    },
-    handleUploading(form, xhr) {
-      console.log(form, xhr);
-      //this.message = "uploading...";
     },
     handleUploaded(response) {
-      console.log(response);
-      if (response.status == "success") {
-        this.user.avatar = response.url;
-        // Maybe you need call vuex action to
-        // update user avatar, for example:
-        // this.$dispatch('updateUser', {avatar: response.url})
-        //this.message = "user avatar updated.";
-      }
-    },
-    handleCompleted(response, form, xhr) {
-      console.log(form, xhr, response);
-      //this.message = "upload completed.";
-    },
-    handlerError(message, type, xhr) {
-      console.log(message, type, xhr);
-      //this.message = "Oops! Something went wrong...";
+      this.$store.dispatch("uploadAvatar", { avatar: response.picture.substring(1) });
     },
   },
 });
