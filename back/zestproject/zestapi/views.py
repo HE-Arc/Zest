@@ -1,5 +1,5 @@
+from .models import Booking, Ressource, UserProfile
 from rest_framework.generics import get_object_or_404
-from .models import Booking, Ressource
 from django.contrib.auth.models import User
 from django.http.response import Http404, HttpResponse, HttpResponseNotAllowed, JsonResponse
 from .serializers import UserSerializer, RessourceSerializer, BookingActionSerializer
@@ -48,8 +48,7 @@ class UserViewSet(viewsets.ModelViewSet):
     
     @action(methods=['patch'], detail=True) 
     def user_patch(self, request, *args, **kwargs):
-        obj = User.objects.get(id=request.user.id)
-        serializer = UserSerializer(obj, data=request.data, partial=True)
+        serializer = UserSerializer(request.user, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
@@ -98,6 +97,7 @@ class RessourceViewSet(viewsets.ModelViewSet):
         booking = get_object_or_404(Booking, user=request.user, pk=booking)
         booking.delete()
         return Response({'detail': 'Operation success'}, status=status.HTTP_204_NO_CONTENT)
+
 
 def index(request):
     return JsonResponse("index", safe=False)

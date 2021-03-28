@@ -27,7 +27,9 @@ urlpatterns = [
                                                                 'delete': 'booking_delete'})),
     path('users', UserViewSet.as_view({
                         'get': 'list',
-                        'post': 'create',
+                        'post': 'create'
+                    })),
+    path('users/profile', UserViewSet.as_view({
                         'patch': 'user_patch'
                     })),
     path('users/<int:pk>/', UserViewSet.as_view({
@@ -39,7 +41,6 @@ urlpatterns = [
     path('auth/token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('auth/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
-
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
