@@ -1,7 +1,7 @@
 <!-- TEMPLATE -->
 <template>
   <div class="d-flex user">
-    <img v-if="useImageAvatar()" :src="getAvatar()" />
+    <img v-if="useImageAvatar()" :src="getAvatar()" class="v-avatar-img" />
     <v-avatar
       v-else
       color="primary lighten-2 d-flex avatar-cropper"
@@ -100,8 +100,14 @@ export default Vue.extend({
   border-radius: 50%;
 }
 
-.v-application .primary.lighten-2.avatar-cropper {
+.v-application .primary.lighten-2.avatar-cropper,
+.v-avatar-img {
   border: 3px solid var(--v-primary-base) !important;
+}
+
+.v-avatar-img {
+  max-width: 130px;
+  border-radius: 50%;
 }
 
 .icon {
