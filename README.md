@@ -6,7 +6,7 @@
 
 <description>
 
-This project id developed with :
+This project is developed with :
 
 - Django for the API
 - VueJS and TypeScript for the WebApp
