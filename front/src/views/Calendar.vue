@@ -1,124 +1,127 @@
 <template>
-  <div class="text-center section">
-    <v-calendar
-      class="custom-calendar max-w-full"
-      :masks="masks"
-      :attributes="attributes"
-      disable-page-swipe
-      is-expanded
-    >
-      <template v-slot:day-content="{ day, attributes }">
-        <div class="flex flex-col h-full z-10 overflow-hidden">
-          <span class="day-label text-sm text-gray-900">{{ day.day }}</span>
-          <div class="flex-grow overflow-y-auto overflow-x-auto">
-            <p
-              v-for="attr in attributes"
-              :key="attr.key"
-              class="text-xs leading-tight rounded-sm p-1 mt-0 mb-1"
-              :class="attr.customData.class"
-            >
-              {{ attr.customData.title }}
-            </p>
+  <v-container>
+    <v-row>
+      <v-col cols="12" sm="6">
+        <div class="text-center section">
+          <h2>Calendars</h2>
+          <div>
+            <v-sheet tile height="54" class="d-flex">
+              <v-btn icon class="ma-2" @click="$refs.calendar.prev()">
+                <v-icon>mdi-chevron-left</v-icon>
+              </v-btn>
+
+              <v-spacer></v-spacer>
+              <v-btn icon class="ma-2" @click="$refs.calendar.next()">
+                <v-icon>mdi-chevron-right</v-icon>
+              </v-btn>
+            </v-sheet>
+            <v-sheet height="500">
+              <v-calendar
+                ref="calendar"
+                v-model="value"
+                :weekdays="weekday"
+                :type="type"
+                :events="events"
+                :event-overlap-threshold="30"
+              ></v-calendar>
+            </v-sheet>
           </div>
         </div>
-      </template>
-    </v-calendar>
-  </div>
+      </v-col>
+      <v-col cols="12" sm="6">
+        <v-select
+          v-model="type"
+          :items="types"
+          dense
+          outlined
+          hide-details
+          class="ma-2"
+          label="type"
+        ></v-select>
+        <v-select
+          v-model="weekday"
+          :items="weekdays"
+          dense
+          outlined
+          hide-details
+          label="weekdays"
+          class="ma-2"
+        ></v-select>
+        <v-divider></v-divider>
+        <v-container>
+          <v-row>
+            <v-col cols="20" sm="6" md="4">
+              <v-text-field
+                label="Your name"
+                v-model="name"
+                required
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <v-row>
+            <date-picker
+              v-model="range"
+              mode="dateTime"
+              is24hr
+              is-range
+              :minute-increment="5"
+            >
+              <template v-slot="{ inputValue, inputEvents }">
+                <div>
+                  <input :value="inputValue.start" v-on="inputEvents.start" />
+                  <input :value="inputValue.end" v-on="inputEvents.end" />
+                </div>
+              </template>
+            </date-picker>
+          </v-row>
+        </v-container>
+        <v-btn color="primary" text @click="test"> Save </v-btn>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script lang="js">
-import Vue from 'vue';
+import Vue from 'vue'
+
 
 export default Vue.extend({
   name: "Calendar",
   components: {
-    //
   },
   methods: {
-   //
+   test(){
+      this.events.push({
+        name: this.name,
+        start: this.range.start,
+        end: this.range.end,
+        color: this.colors[2]
+      })
+      console.log(this.range.start)
+      console.log(this.range.end)
+    }
   },
-  data() {
-    const month = new Date().getMonth();
-    const year = new Date().getFullYear();
-    return {
-      masks: {
-        weekdays: 'WWW',
+  data: () => ({
+      name,
+      range: {
+        start: new Date(),
+        end: new Date()
       },
-      attributes: [
-        {
-          key: 1,
-          customData: {
-            title: 'Lunch with mom.',
-            class: 'bg-red-600 text-white',
-          },
-          dates: new Date(year, month, 1),
-        },
-        {
-          key: 2,
-          customData: {
-            title: 'Take Noah to basketball practice',
-            class: 'bg-blue-500 text-white',
-          },
-          dates: new Date(year, month, 2),
-        },
-        {
-          key: 3,
-          customData: {
-            title: "Noah's basketball game.",
-            class: 'bg-blue-500 text-white',
-          },
-          dates: new Date(year, month, 5),
-        },
-        {
-          key: 4,
-          customData: {
-            title: 'Take car to the shop',
-            class: 'bg-indigo-500 text-white',
-          },
-          dates: new Date(year, month, 5),
-        },
-        {
-          key: 4,
-          customData: {
-            title: 'Meeting with new client.',
-            class: 'bg-teal-500 text-white',
-          },
-          dates: new Date(year, month, 7),
-        },
-        {
-          key: 5,
-          customData: {
-            title: "Mia's gymnastics practice.",
-            class: 'bg-pink-500 text-white',
-          },
-          dates: new Date(year, month, 11),
-        },
-        {
-          key: 6,
-          customData: {
-            title: 'Cookout with friends.',
-            class: 'bg-orange-500 text-white',
-          },
-          dates: { months: 5, ordinalWeekdays: { 2: 1 } },
-        },
-        {
-          key: 7,
-          customData: {
-            title: "Mia's gymnastics recital.",
-            class: 'bg-pink-500 text-white',
-          },
-          dates: new Date(year, month, 22),
-        },
-        {
-          key: 8,
-          customData: {
-            title: 'Visit great grandma.',
-            class: 'bg-red-600 text-white',
-          },
-          dates: new Date(year, month, 25),
-        },
+      type: 'month',
+      types: ['month', 'week', 'day', '4day'],
+      weekday: [0, 1, 2, 3, 4, 5, 6],
+      weekdays: [
+        { text: 'Sun - Sat', value: [0, 1, 2, 3, 4, 5, 6] },
+        { text: 'Mon - Sun', value: [1, 2, 3, 4, 5, 6, 0] },
+        { text: 'Mon - Fri', value: [1, 2, 3, 4, 5] },
+        { text: 'Mon, Wed, Fri', value: [1, 3, 5] },
       ],
-    };
-  },
+      value: '',
+      events: [],
+      colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1']
+    }),
+  computed: {
+    //
+  }
 });
 </script>
