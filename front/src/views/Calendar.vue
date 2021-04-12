@@ -38,15 +38,6 @@
           class="ma-2"
           label="type"
         ></v-select>
-        <v-select
-          v-model="weekday"
-          :items="weekdays"
-          dense
-          outlined
-          hide-details
-          label="weekdays"
-          class="ma-2"
-        ></v-select>
         <v-divider></v-divider>
         <v-container>
           <v-row>
@@ -83,6 +74,7 @@
 
 <script lang="js">
 import Vue from 'vue'
+import Api from "../logic/api/ApiRequester"
 
 
 export default Vue.extend({
@@ -97,11 +89,16 @@ export default Vue.extend({
         end: this.range.end,
         color: this.colors[2]
       })
-      console.log(this.range.start)
-      console.log(this.range.end)
     }
   },
+  async beforeMount() {
+    Api.get("ressources/"+this.$route.params.resource_id).then((data) => {
+        console.log(data);
+        this.resource = data;
+    });
+  },
   data: () => ({
+      resource: undefined,
       name,
       range: {
         start: new Date(),

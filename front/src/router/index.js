@@ -50,7 +50,7 @@ const routes = [
     }
   },
   {
-    path: "/Calendar",
+    path: "/Calendar/:resource_id",
     name: "Calendar",
     component: Calendar
   }
