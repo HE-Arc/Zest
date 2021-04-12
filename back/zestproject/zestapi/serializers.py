@@ -57,7 +57,7 @@ class BookingActionSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class RessourceSerializer(serializers.ModelSerializer):
-    participants = BookingSerializer(source="booking_set", many=True,required=False) # la source est importante, par défaut : tablename + "_set" ou alors définir un nom spécifique
+    bookings = BookingSerializer(source="booking_set", many=True,required=False) # la source est importante, par défaut : tablename + "_set" ou alors définir un nom spécifique
     author = UserSerializer(required=False)
     picture = serializers.ImageField(allow_empty_file=True, required=False)
 
