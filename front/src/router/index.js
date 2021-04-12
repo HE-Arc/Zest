@@ -7,6 +7,7 @@ import Logout from "../views/Logout.vue";
 import Profile from "../views/Profile.vue";
 import store from "../store";
 import Api from "../logic/api/ApiRequester";
+import Calendar from "../views/Calendar.vue"
 
 Vue.use(VueRouter);
 
@@ -63,8 +64,13 @@ const routes = [
     component: Logout,
     meta: {
       onlyLogged: true,
-    },
+    }
   },
+  {
+    path: "/Calendar/:resource_id",
+    name: "Calendar",
+    component: Calendar
+  }
   // ,{
   //   path: '/about',
   //   name: 'About',
