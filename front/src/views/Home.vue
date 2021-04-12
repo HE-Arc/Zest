@@ -15,7 +15,7 @@
         label="Do you want to share a resource ?"
         class="mx-2 input-share"
       />
-      <v-btn elevation="4" x-large class="primary my-3">Create</v-btn>
+      <v-btn elevation="4" x-large class="primary my-3" @click="goToCreate">Create</v-btn>
     </div>
   </v-container>
 </template>
@@ -27,7 +27,9 @@ export default Vue.extend({
     name: "Home",
     components: {},
     methods: {
-        //
+      goToCreate: function () {
+        this.$router.push({name: 'resources_new'});
+      }
     },
     data() {
         return {

@@ -12,11 +12,8 @@ export default Vue.extend({
   components: {
     ResourceDetail
   },
-  props: {
-    resource_id: null,
-  },
   async beforeMount() {
-      Api.get("ressources/"+this.resource_id).then((data) => {
+      Api.get("ressources/"+this.$route.params.resource_id).then((data) => {
           console.log(data);
           this.resource = data;
       });

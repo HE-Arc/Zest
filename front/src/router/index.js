@@ -18,7 +18,7 @@ const routes = [
     component: Home,
   },
   {
-    path: "/Login",
+    path: "/login",
     name: "Login",
     component: Login,
     meta: {
@@ -26,7 +26,7 @@ const routes = [
     },
   },
   {
-    path: "/SignUp",
+    path: "/signUp",
     name: "SignUp",
     component: SignUp,
     meta: {
@@ -51,7 +51,7 @@ const routes = [
     },
   },
   {
-    path: "/Profile",
+    path: "/profile",
     name: "Profile",
     component: Profile,
     meta: {
@@ -59,7 +59,7 @@ const routes = [
     },
   },
   {
-    path: "/Logout",
+    path: "/logout",
     name: "Logout",
     component: Logout,
     meta: {
@@ -67,7 +67,7 @@ const routes = [
     }
   },
   {
-    path: "/Calendar/:resource_id",
+    path: "/resources/:resource_id",
     name: "Calendar",
     component: Calendar
   }
