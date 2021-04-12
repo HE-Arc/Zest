@@ -49,7 +49,7 @@ export default Vue.extend({
     },
     methods: {
         goToResource: function (id) {
-            router.push({ name: "Resource", params: { resourceId: id } });
+            router.push({ name: "Calendar", params: { resource_id: id } });
         }
     }
 });

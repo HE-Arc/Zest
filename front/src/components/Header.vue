@@ -12,19 +12,19 @@
     <!-- Logged in -->
     <div v-if="this.$store.getters.isLoggedIn">
       <!-- Profile -->
-      <v-btn to="/Home" class="mx-1 px-sm-1" text>
+      <v-btn to="/" class="mx-1 px-sm-1" text>
         <span class="hidden-md-and-down mr-2">Find resource</span>
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
 
       <!-- Profile -->
-      <v-btn to="/Profile" class="mx-1 px-sm-1" text>
+      <v-btn to="/profile" class="mx-1 px-sm-1" text>
         <span class="hidden-md-and-down mr-2">Profil</span>
         <v-icon>mdi-account-circle</v-icon>
       </v-btn>
 
       <!-- Login -->
-      <v-btn to="/Logout" class="mx-1 px-sm-1" text>
+      <v-btn to="/logout" class="mx-1 px-sm-1" text>
         <span class="hidden-md-and-down mr-2">Logout</span>
         <v-icon>mdi-power</v-icon>
       </v-btn>
@@ -32,7 +32,7 @@
 
     <!-- Not logged in -->
     <div v-if="!this.$store.getters.isLoggedIn">
-      <v-btn to="/Login" class="mx-1 px-sm-1" text>
+      <v-btn to="/login" class="mx-1 px-sm-1" text>
         <span class="hidden-md-and-down mr-2">Login</span>
         <v-icon>mdi-account-key</v-icon>
       </v-btn>
