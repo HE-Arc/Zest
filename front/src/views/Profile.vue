@@ -6,7 +6,7 @@
           <v-form>
             <v-container py-0>
               <v-layout wrap>
-                <p class="mt-4">
+                <p class="mt-4 col-12">
                   Below appears all of your resources ! Have a look at them and
                   maybe you can share another one !
                 </p>
@@ -16,13 +16,14 @@
                     md="6"
                     lg="6"
                     xl="4"
-                    v-for="i in Array.from(Array(5).keys())"
-                    :key="i"
+                    v-for="resource in resources"
+                    :key="resource.id"
                   >
                     <Resource
-                      :title="'Caquelon ' + (i + 1)"
-                      authorName="Lucas Fridez"
-                      :nbPeople="10 - i"
+                      :title="resource.name"
+                      :authorName="resource.author.first_name + ' ' + resource.author.last_name"
+                      :nbPeople="resource.participants.length"
+                      :id="resource.share_id"
                     />
                   </v-col>
                 </v-row>
@@ -116,6 +117,10 @@ import Avatar from "../components/AvatarCropper"
 export default Vue.extend({
     name: "Home",
     components: {TitledCard, Avatar, Resource},
+    async created() {
+      this.resources = await Api.get("ressources");
+      console.log(this.resources);
+    },
     methods: {
         updateProfile: async function() {
           this.loading = true;
@@ -132,6 +137,7 @@ export default Vue.extend({
         lastname: this.$store.state.user.last_name,
         email: this.$store.state.user.email,
         loading: false,
+        resources: [],
         isFormValid: true,
         rules: {
           required: (value) => !!value || "Required",
