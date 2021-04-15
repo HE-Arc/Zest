@@ -27,22 +27,6 @@
                     />
                   </v-col>
                 </v-row>
-                <!-- <v-row class="mb-2">
-                  <v-col
-                    sm="12"
-                    md="6"
-                    lg="6"
-                    xl="4"
-                    v-for="i in Array.from(Array(5).keys())"
-                    :key="i"
-                  >
-                    <Resource
-                      :title="'Caquelon ' + (i + 1)"
-                      authorName="Lucas Fridez"
-                      :nbPeople="10 - i"
-                    />
-                  </v-col>
-                </v-row> -->
               </v-layout>
             </v-container>
           </v-form>
