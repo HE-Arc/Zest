@@ -127,6 +127,9 @@ venv.bak/
 pythonenv*
 .vscode
 
+# Environement configuration file
+zestproject/zestproject/env.py
+
 # Spyder project settings
 .spyderproject
 .spyproject
