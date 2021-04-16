@@ -1,18 +1,17 @@
-from .models import Booking, Ressource, UserProfile
-from rest_framework.generics import get_object_or_404
-from django.contrib.auth.models import User
-from django.http.response import Http404, HttpResponse, HttpResponseNotAllowed, JsonResponse
-from .serializers import UserSerializer, RessourceSerializer, BookingActionSerializer
-from .permissions import IsOwnerOrReadOnly, IsOwnerOrAdmin
-from rest_framework.response import Response
-from rest_framework import viewsets
-from rest_framework import permissions
-from django.db.models import Q
 import shortuuid
+from django.contrib.auth.models import User
+from django.db.models import Q
+from django.http.response import (JsonResponse)
+from rest_framework import permissions, status, viewsets
 from rest_framework.decorators import action
-from rest_framework import status
+from rest_framework.generics import get_object_or_404
+from rest_framework.response import Response
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+from .models import Booking, Ressource
+from .permissions import IsOwnerOrAdmin, IsOwnerOrReadOnly
+from .serializers import (BookingActionSerializer, RessourceSerializer,
+                          UserSerializer)
 
 # Create your views here.
 
@@ -46,7 +45,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
         return super(UserViewSet, self).get_permissions()
     
-    @action(methods=['patch'], detail=True) 
+    @action(methods=['patch'], detail=False, url_path="profile") 
     def user_patch(self, request, *args, **kwargs):
         serializer = UserSerializer(request.user, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
@@ -68,15 +67,21 @@ class RessourceViewSet(viewsets.ModelViewSet):
         serializer = RessourceSerializer(queryset, many=True)
         return Response(serializer.data)
 
-    @action(methods=['post'], detail=False,  permission_classes=[permissions.IsAuthenticated]) 
+    @action(methods=['post'], detail=True,  permission_classes=[permissions.IsAuthenticated], url_path="bookings") 
     def booking_add(self, request, share_id, *args, **kwargs):
         resource = get_object_or_404(Ressource, share_id=share_id)
-        serializer = BookingActionSerializer(data=request.data)
+        
+        data=request.data
+        data['ressource'] = resource.id
+        
+        serializer = BookingActionSerializer(data=data)
         serializer.is_valid(raise_exception=True)
+        
         serializer.save(user=request.user, ressource=resource)
+        
         return Response(serializer.data)
 
-    @action(methods=['patch'], detail=True) 
+    #no decorator cause it's a nested viewset
     def booking_patch(self, request, share_id, booking):
         obj = Booking.objects.get(pk=booking)
         print(obj.user, request.user)
@@ -92,7 +97,7 @@ class RessourceViewSet(viewsets.ModelViewSet):
         serializer.save()
         return Response(serializer.data)
 
-    @action(methods=['delete'], detail=True)
+    #no decorator cause it's a nested viewset
     def booking_delete(self, request, share_id, booking):
         booking = get_object_or_404(Booking, user=request.user, pk=booking)
         booking.delete()
