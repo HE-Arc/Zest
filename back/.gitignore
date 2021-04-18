@@ -154,4 +154,7 @@ dmypy.json
 # profiling data
 .prof
 
+# uploaded jpg
+zestproject/uploads/
+
 # End of https://www.toptal.com/developers/gitignore/api/django

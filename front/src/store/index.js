@@ -52,5 +52,6 @@ export default new Vuex.Store({
     authStatus: (state) => state.status,
     fullname: (state) => `${state.user.last_name} ${state.user.first_name}`,
     avatar: (state) => state.user.picture,
+    userId: (state) => state.user.id,
   },
 });
