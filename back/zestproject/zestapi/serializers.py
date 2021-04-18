@@ -48,7 +48,7 @@ class UserSerializer(serializers.ModelSerializer):
 class BookingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Booking
-        exclude = ['ressource', 'id']
+        exclude = ['ressource']
         depth = 1
 
 class BookingActionSerializer(serializers.ModelSerializer):
