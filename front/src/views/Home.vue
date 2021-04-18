@@ -9,11 +9,12 @@
     <h2><span class="fw-700">Z</span>est your life</h2>
     <div class="d-flex nowrap align-center justify-center">
       <v-text-field
-        prepend-icon="mdi-magnify"
+        prepend-icon="mdi-calendar-plus"
         type="text"
         solo
         label="Do you want to share a resource ?"
         class="mx-2 input-share"
+        v-model="name"
       />
       <v-btn elevation="4" x-large class="primary my-3" @click="goToCreate">Create</v-btn>
     </div>
@@ -28,12 +29,16 @@ export default Vue.extend({
     components: {},
     methods: {
       goToCreate: function () {
-        this.$router.push({name: 'resources_new'});
+        let queries = {};
+        if (name != undefined) {
+          queries.name = this.name;
+        }
+        this.$router.push({name: 'resources_new', query: queries});
       }
     },
     data() {
         return {
-            //
+          name: undefined
         };
     }
 });

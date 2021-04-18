@@ -1,5 +1,5 @@
 <template>
-  <ResourceDetail />
+  <ResourceDetail :resource="resource"/>
 </template>
 
 <script lang="js">
@@ -10,6 +10,14 @@ export default Vue.extend({
   name: "ResourceNew",
   components: {
     ResourceDetail
+  },
+    data: function () {
+    return {
+      resource: {
+        name: this.$route.query.name,
+        date_start : (new Date()).toISOString().substr(0, 10)
+      }
+    };
   }
 
 });
