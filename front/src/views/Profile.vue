@@ -22,7 +22,7 @@
                     <Resource
                       :title="resource.name"
                       :authorName="resource.author.first_name + ' ' + resource.author.last_name"
-                      :nbPeople="resource.participants.length"
+                      :nbPeople="resource.bookings.length"
                       :id="resource.share_id"
                     />
                   </v-col>

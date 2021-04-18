@@ -38,7 +38,7 @@ const routes = [
     name: 'resources_new',
     component: () => import('../views/ResourceNew.vue'),
     meta: {
-      //onlyLogged: true,
+      onlyLogged: true,
     },
   },
   {
@@ -47,7 +47,7 @@ const routes = [
     props: true,
     component: () => import('../views/ResourceEdit.vue'),
     meta: {
-      //onlyLogged: true,
+      onlyLogged: true,
     },
   },
   {
