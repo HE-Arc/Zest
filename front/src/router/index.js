@@ -67,7 +67,7 @@ const routes = [
     }
   },
   {
-    path: "/resources/:resource_id",
+    path: "/resources/:share_id",
     name: "Calendar",
     component: Calendar
   }
