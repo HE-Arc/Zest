@@ -3,7 +3,7 @@
     <v-row>
       <v-col cols="12" md="8" sm="6">
         <div class="text-center section">
-          <h2>Calendar for {{ this.resource.name }}</h2>
+          <h2>Calendar for {{ this.resource.name }} <v-btn outlined v-if="resource.author.id==this.$store.state.user.id" color="primary" @click="editResource(resource.share_id)"> Edit </v-btn></h2> 
           <div>
             <v-sheet tile class="d-flex">
               <v-toolbar flat>
@@ -159,6 +159,9 @@ export default Vue.extend({
   components: {
   },
   methods: {
+    editResource: function (id) {
+        this.$router.push({ name: "resources_edit", params: { share_id: id }});
+    },
     viewDay({ date }){
       this.calendar = date
       this.type = 'day'

@@ -99,7 +99,7 @@ export default Vue.extend({
         let router = this.$router;
         try {
             await Api.post("ressources", data, {'Content-Type': 'multipart/form-data'}).then((data) => {
-              router.push({name: 'Calendar', params: { resource_id: data.share_id } });
+              router.push({name: 'Calendar', params: { share_id: data.share_id } });
             });
         } catch(e){
             console.log(e);
@@ -110,7 +110,7 @@ export default Vue.extend({
         let router = this.$router;
         try {
             await Api.patch("ressources/" + this.resource.share_id, data, {'Content-Type': 'multipart/form-data'}).then(() => {
-              router.push({name: 'Calendar', params: { resource_id: this.resource.share_id } });
+              router.push({name: 'Calendar', params: { share_id: this.resource.share_id } });
             });
         } catch(e){
             console.log(e);

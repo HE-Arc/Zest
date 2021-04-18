@@ -42,7 +42,7 @@ const routes = [
     },
   },
   {
-    path: '/resources/:resource_id/edit',
+    path: '/resources/:share_id/edit',
     name: 'resources_edit',
     props: true,
     component: () => import('../views/ResourceEdit.vue'),

@@ -13,8 +13,7 @@ export default Vue.extend({
     ResourceDetail
   },
   async beforeMount() {
-      Api.get("ressources/"+this.$route.params.resource_id).then((data) => {
-          console.log(data);
+      Api.get("ressources/"+this.$route.params.share_id).then((data) => {
           this.resource = data;
       });
   },

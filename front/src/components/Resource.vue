@@ -29,7 +29,6 @@
 <!-- SCRIPT -->
 <script lang="ts">
 import Vue from "vue";
-import router from "../router";
 import Avatar from "./Avatar.vue";
 export default Vue.extend({
     components: {
@@ -49,7 +48,7 @@ export default Vue.extend({
     },
     methods: {
         goToResource: function (id) {
-            router.push({ name: "Calendar", params: { resource_id: id } });
+            this.$router.push({ name: "Calendar", params: { share_id: id } });
         }
     }
 });
