@@ -5,7 +5,7 @@
     <form>
       <v-text-field
         v-model="resource.name"
-        label="Name"
+        label="Name *"
         required
         :rules="[rules.required, rules.min]"
       ></v-text-field>
@@ -30,7 +30,7 @@
       </v-layout>
       <v-textarea
         v-model="resource.description"
-        label="Description"
+        label="Description *"
         :rules="[rules.required]"
       ></v-textarea>
 
