@@ -109,6 +109,10 @@
       </v-col>
       <v-col cols="6" sm="4" align-self="center">
         <v-card outlined>
+                <v-img v-if="resource.picture"
+                  :src="resource.picture"
+                  height="250"
+                ></v-img>
           <v-card-title> Add new booking </v-card-title>
           <v-card-text> Select a date range and click save </v-card-text>
           <v-container>

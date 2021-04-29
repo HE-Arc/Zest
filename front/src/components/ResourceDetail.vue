@@ -38,6 +38,7 @@
         Update
       </v-btn>
       <v-btn class="mr-4" @click="submitCreate" v-else> Create </v-btn>
+      <v-btn v-if="(resource.id && resource.author.id == this.$store.state.user.id)" color="error" @click="submitDelete" >Delete</v-btn>
     </form>
   </v-container>
 </template>
@@ -63,6 +64,7 @@ export default Vue.extend({
                 description: undefined,
                 date_start: (new Date()).toISOString().substr(0, 10),
                 date_end: undefined,
+                author:undefined,
             }
         }
     }
@@ -115,6 +117,18 @@ export default Vue.extend({
         } catch(e){
             console.log(e);
         }
+    },
+
+    async submitDelete() {
+        let router = this.$router;
+        try {
+            await Api.delete("ressources/" + this.resource.share_id).then(() => {
+              router.push({name: 'Profile'});
+            });
+        } catch(e){
+            console.log(e);
+        }
+
     }
   }
 });
