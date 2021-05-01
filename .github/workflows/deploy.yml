@@ -1,0 +1,27 @@
+name: Continus Delivery
+
+on: 
+  push:
+    branches:
+      - develop
+
+jobs:
+  Deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout main branch
+        uses: actions/checkout@v2
+        with:
+          ref: develop
+      - name: setup ruby env
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+          ruby-version: 3.0
+      - name: Capistrano deploy
+        uses: miloserdow/capistrano-deploy@master
+        with:
+          target: production
+          deploy_key: ${{ secrets.DEPLOY_ENC_PASS }}
+          enc_rsa_key_val: ${{ secrets.DEPLOY_ENC_PRIVATE_KEY }}

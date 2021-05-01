@@ -125,6 +125,10 @@ ENV/
 env.bak/
 venv.bak/
 pythonenv*
+.vscode
+
+# Environement configuration file
+zestproject/zestproject/env.py
 
 # Spyder project settings
 .spyderproject
@@ -149,5 +153,8 @@ dmypy.json
 
 # profiling data
 .prof
+
+# uploaded jpg
+zestproject/uploads/
 
 # End of https://www.toptal.com/developers/gitignore/api/django
