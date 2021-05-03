@@ -11,6 +11,10 @@ This project is developed with :
 - Django for the API
 - VueJS and TypeScript for the WebApp
 
+## Logo 
+
+[Luca Truscello](truscello.luca@gmail.com) from HEPIA
+
 ## Authors
 
 <table>
